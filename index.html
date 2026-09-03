@@ -771,6 +771,26 @@
     .id-body .idpane[data-pane="info"].hidden{
       display:none;
     }
+
+    /* ---- animasi masuk untuk pane (Info/Skills/Kontak/Playground/Pengalaman)
+       saat berpindah menu di mobile ----
+       Di desktop, transisi antar pane memakai cross-fade posisi absolut
+       (opacity/transform/filter di atas). Di mobile hal itu tidak bisa
+       dipakai karena pane diubah ke position:static (agar bisa scroll
+       natural bersama halaman) dan disembunyikan dengan display:none —
+       sehingga sebelumnya pane baru langsung muncul tanpa animasi sama
+       sekali. Aturan berikut menambahkan animasi fade + slide-up setiap
+       kali sebuah pane berpindah dari display:none menjadi terlihat;
+       browser selalu me-restart animasi CSS saat itu terjadi, jadi tidak
+       perlu JavaScript tambahan. */
+    .id-body .idpane:not(.hidden){
+      animation: idPaneInMobile .45s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes idPaneInMobile{
+      from{ opacity:0; transform:translateY(14px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+
     .lede-text{margin-top:14px;font-size:14.5px;line-height:1.6;}
     .map-standalone.expanded{flex:0 0 auto;height:200px;}
     .map-standalone.expanded .map-frame-wrap{flex:1 1 auto;min-height:150px;}
@@ -1490,9 +1510,102 @@
     }
   }
 
+  function isMobileView(){
+    return window.matchMedia('(max-width: 860px)').matches;
+  }
+
+  // Swaps which idpane is visible.
+  function switchIdPanes(target){
+    document.querySelectorAll('.id-body .idpane').forEach(p => {
+      p.classList.toggle('hidden', p.dataset.pane !== target);
+    });
+  }
+
+  // Tracks the in-progress height animation on #id-body-el (mobile only)
+  // so a new pane switch can always cleanly cancel whatever the previous
+  // one was doing, and so we never rely solely on 'transitionend' (which
+  // does NOT fire if the height doesn't actually change — e.g. tapping
+  // the same menu twice, or tapping again before the transition ends —
+  // which previously left an inline height + overflow:hidden stuck on
+  // the container forever, making every pane after that look blank).
+  let paneHeightTransitionHandler = null;
+  let paneHeightCleanupTimer = null;
+
+  function clearPendingPaneHeightAnimation(){
+    if(paneHeightTransitionHandler){
+      idBodyEl.removeEventListener('transitionend', paneHeightTransitionHandler);
+      paneHeightTransitionHandler = null;
+    }
+    if(paneHeightCleanupTimer){
+      clearTimeout(paneHeightCleanupTimer);
+      paneHeightCleanupTimer = null;
+    }
+  }
+
+  function finishPaneHeightAnimation(){
+    clearPendingPaneHeightAnimation();
+    idBodyEl.style.removeProperty('height');
+    idBodyEl.style.removeProperty('overflow');
+  }
+
+  // On mobile, the idpane container's height is measured before and after
+  // the swap and animated between the two values instead of snapping
+  // instantly. Without this, hiding a tall pane (e.g. Skills) and showing
+  // a short one (e.g. Info) shrinks the whole page's height in a single
+  // frame — since the page may be scrolled down at that moment, the
+  // browser has no choice but to instantly clamp the scroll position back
+  // within the new (shorter) bounds, which reads as the page suddenly
+  // "jumping" straight back to the top. Animating the container's height
+  // makes that clamping happen gradually across the transition instead of
+  // in one abrupt jump. (On desktop this is skipped — the existing
+  // absolute-positioned cross-fade already handles it there.)
+  function runPaneSwitch(target){
+    if(!isMobileView()){
+      switchIdPanes(target);
+      return;
+    }
+
+    // cancel whatever the previous switch was still animating/waiting on,
+    // so rapid taps can never leave a stale inline height/overflow stuck
+    clearPendingPaneHeightAnimation();
+
+    const startHeight = idBodyEl.getBoundingClientRect().height;
+    idBodyEl.style.setProperty('height', startHeight + 'px', 'important');
+    idBodyEl.style.overflow = 'hidden';
+    idBodyEl.offsetHeight; // force reflow so the start height is registered
+
+    switchIdPanes(target);
+
+    const endHeight = idBodyEl.scrollHeight;
+
+    // heights already equal (e.g. same menu tapped again) — nothing will
+    // actually transition, so release immediately instead of waiting on a
+    // 'transitionend' that will never come
+    if(Math.abs(endHeight - startHeight) < 1){
+      finishPaneHeightAnimation();
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      idBodyEl.style.setProperty('height', endHeight + 'px', 'important');
+    });
+
+    paneHeightTransitionHandler = function(e){
+      if(e.propertyName !== 'height') return;
+      finishPaneHeightAnimation();
+    };
+    idBodyEl.addEventListener('transitionend', paneHeightTransitionHandler);
+
+    // safety net: if 'transitionend' never fires for any reason (browser
+    // quirks, reduced motion, element visibility changes mid-transition),
+    // force the inline styles off anyway so the container can never get
+    // stuck permanently.
+    paneHeightCleanupTimer = setTimeout(finishPaneHeightAnimation, 500);
+  }
+
   // Panes that only exist inside #id-body-el on mobile (moved there in
   // mergeRightIntoLeftOnMobile below) still respond to the exact same
-  // click handler below — idPanes is re-queried on every click so it
+  // click handler below — panes are re-queried on every click so it
   // always reflects whichever panes currently live inside the id-body.
   document.querySelectorAll('.topbar .seg').forEach(seg => {
     const btns = seg.querySelectorAll('button');
@@ -1508,12 +1621,23 @@
         if(activeIcon) activeIcon.textContent = '−';
 
         const target = b.dataset.target;
-        const idPanes = document.querySelectorAll('.id-body .idpane');
-        idPanes.forEach(p => p.classList.toggle('hidden', p.dataset.pane !== target));
+        runPaneSwitch(target);
         eduBubbleEl.classList.toggle('collapsed', target !== 'info');
         mapBubbleEl.classList.toggle('collapsed', target !== 'kontak');
         mapBubbleEl.classList.toggle('expanded', target === 'kontak');
         applyBubbleSizing(target);
+
+        // On mobile, always bring the user back to the top of the page when
+        // switching menus, so the newly opened pane is read from its first
+        // item (e.g. Pengalaman always opens on "Magang") instead of
+        // whatever scroll position was left over from the previous pane —
+        // which could land mid-way through unrelated content. This runs
+        // alongside the height animation in runPaneSwitch(), so the page
+        // shrinks/grows and scrolls back to the top together smoothly
+        // rather than the scroll position just being left wherever it was.
+        if(isMobileView()){
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        }
 
         // keep the standalone right-side tabs (desktop) in sync when a
         // Playground/Pengalaman button was clicked from the merged mobile menu
