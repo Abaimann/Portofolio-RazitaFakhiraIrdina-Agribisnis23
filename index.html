@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Razita Fakhira Irdina — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary: #94B4C1;
+    --primary-deep: #4F6B76;
+    --primary-soft: #C7D9DF;
+    --ink: #1C2528;
+    --muted: #667379;
+    --paper: #F3F1EC;
+    --surface: #FFFFFF;
+    --line: #E4E1D8;
+    --radius: 22px;
+    --radius-sm: 16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  html{
+    cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%3E%3Cpath%20d%3D%22M9%202%20L11.4%208.6%20L18%2011%20L11.4%2013.4%20L9%2020%20L6.6%2013.4%20L0%2011%20L6.6%208.6%20Z%22%20fill%3D%22%231C2528%22%20stroke%3D%22%23F3F1EC%22%20stroke-width%3D%221%22%20stroke-linejoin%3D%22round%22/%3E%3Ccircle%20cx%3D%2221%22%20cy%3D%2221%22%20r%3D%223.4%22%20fill%3D%22%2394B4C1%22%20stroke%3D%22%23F3F1EC%22%20stroke-width%3D%221%22/%3E%3C/svg%3E") 2 2, auto !important;
+  }
+  a, button, .seg button, .lang-switch button, .pill, .card, .icon-btn,
+  .kontak-row, .tool-item, .avatar, .mark, [onclick], [role="button"]{
+    cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2234%22%20height%3D%2234%22%20viewBox%3D%220%200%2034%2034%22%3E%3Cpath%20d%3D%22M11%202%20L14%209.6%20L22%2012.5%20L14%2015.4%20L11%2023%20L8%2015.4%20L0%2012.5%20L8%209.6%20Z%22%20fill%3D%22%234F6B76%22%20stroke%3D%22%23F3F1EC%22%20stroke-width%3D%221%22%20stroke-linejoin%3D%22round%22/%3E%3Ccircle%20cx%3D%2225.5%22%20cy%3D%2225.5%22%20r%3D%224.2%22%20fill%3D%22%2394B4C1%22%20stroke%3D%22%23F3F1EC%22%20stroke-width%3D%221%22/%3E%3C/svg%3E") 2 2, pointer !important;
+  }
+  body{
+    background:#425C66;
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    padding:14px;
+  }
+  .app{
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-template-columns: 32% 1fr;
+    gap:14px;
+  }
+
+  /* ============ LEFT: stacked bubbles ============ */
+  .stack{
+    height:100%;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    overflow:hidden;
+  }
+  .bubble{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    flex:0 0 auto;
+    overflow:hidden;
+    transition:border-color .2s ease, box-shadow .25s ease, transform .25s cubic-bezier(.22,1,.36,1);
+  }
+  .stack > .bubble{
+    opacity:0;
+    transform:translateY(16px);
+    animation:bubbleIn .6s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .stack > .bubble:nth-child(1){animation-delay:.05s;}
+  .stack > .bubble:nth-child(2){animation-delay:.15s;}
+  .stack > .bubble:nth-child(3){animation-delay:.25s;}
+  .stack > .bubble:nth-child(4){animation-delay:.35s;}
+  .stack > .bubble:nth-child(5){animation-delay:.45s;}
+  @keyframes bubbleIn{ to{opacity:1;transform:translateY(0);} }
+
+  /* background image behind the left box, visible before the bubbles slide in */
+  .app > .stack:first-of-type{
+    background-image:url('assets/background.png');
+    background-size:cover;
+    background-position:center top;
+    background-repeat:no-repeat;
+    border-radius:var(--radius);
+  }
+
+  /* left column: slide in from the left, one after another top to bottom */
+  .app > .stack:first-of-type > .bubble{
+    transform:translateX(-160px);
+    animation-name:bubbleInLeft;
+    animation-duration:.5s;
+    animation-timing-function:cubic-bezier(.16,.9,.24,1);
+  }
+  .app > .stack:first-of-type > .bubble:nth-child(1){animation-delay:1.5s;}
+  .app > .stack:first-of-type > .bubble:nth-child(2){animation-delay:1.6s;}
+  .app > .stack:first-of-type > .bubble:nth-child(3){animation-delay:1.7s;}
+  .app > .stack:first-of-type > .bubble:nth-child(4){animation-delay:1.8s;}
+  .app > .stack:first-of-type > .bubble:nth-child(5){animation-delay:1.9s;}
+  @keyframes bubbleInLeft{ to{opacity:1;transform:translateX(0);} }
+
+  /* topbar bubble */
+  .topbar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:5px;
+  }
+  .mark{
+    width:32px;height:32px;border-radius:10px;
+    background:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    flex:0 0 auto;
+    transition:transform .4s cubic-bezier(.22,1,.36,1);
+  }
+  .mark:hover{transform:rotate(20deg) scale(1.08);}
+  .mark svg{width:15px;height:15px;}
+  .seg{
+    display:flex;
+    gap:8px;
+    flex:1;
+    justify-content:flex-end;
+    flex-wrap:wrap;
+  }
+  .seg button{
+    border:1px solid var(--line);
+    background:var(--surface);
+    font-family:'Inter', sans-serif;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink);
+    padding:6px 9px 6px 14px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    transition:background .22s ease, color .22s ease, border-color .22s ease, transform .18s ease;
+  }
+  .seg button:hover{transform:translateY(-1px);border-color:var(--primary);}
+  .seg button .segtext{min-width:38px;text-align:left;font-variant-ligatures:none;}
+  .seg button .segicon{
+    width:18px;height:18px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;line-height:1;
+    border:1.5px solid currentColor;
+    flex:0 0 auto;
+    transition:transform .3s cubic-bezier(.22,1,.36,1);
+  }
+  .seg button.on{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+  }
+  .seg button.on .segicon{transform:rotate(180deg);}
+
+  /* buttons that only appear in the merged 5-menu topbar on mobile */
+  .seg button.mobile-only-tab{display:none;}
+
+  /* id + lede combined bubble */
+  .id-bubble{
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    flex:1;
+    min-height:0;
+    transition:flex-grow .1s linear;
+  }
+  /* when a fixed-content pane (e.g. Kontak) is active, the bubble hugs its content
+     instead of stretching to fill the remaining column height */
+  .id-bubble.fit-content{
+    flex:0 0 auto;
+  }
+  .id-top{display:flex;gap:14px;align-items:center;flex:0 0 auto;}
+  .avatar{
+    width:110px;height:110px;border-radius:14px;
+    background-image:url('assets/avatar_1.png');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    flex:0 0 auto;
+    transition:transform .3s cubic-bezier(.22,1,.36,1), background-image .15s ease;
+  }
+  .avatar:hover{
+    background-image:url('assets/avatar_2(hover).png');
+    transform:scale(1.06) rotate(-3deg);
+  }
+  .name{font-family:'Inter', sans-serif;font-weight:800;font-size:23px;line-height:1.15;margin:0;}
+  .role{color:var(--muted);font-size:13.5px;margin-top:4px;}
+
+  /* language switch (ID / EN) — simple underline text links */
+  .lang-switch{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    margin-top:12px;
+  }
+  .lang-switch button{
+    border:none;
+    background:none;
+    color:var(--muted);
+    font-family:'Inter', sans-serif;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.02em;
+    padding:0 0 3px;
+    position:relative;
+    transition:color .2s ease;
+  }
+  .lang-switch button::after{
+    content:'';
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:2px;
+    background:var(--ink);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .25s cubic-bezier(.22,1,.36,1);
+  }
+  .lang-switch button:hover{color:var(--ink);}
+  .lang-switch button.on{color:var(--ink);}
+  .lang-switch button.on::after{transform:scaleX(1);}
+
+  /* swappable body inside id-bubble (Info / Skills / Kontak) */
+  .id-body{
+    position:relative;
+    flex:1;
+    min-height:0;
+    transition:height .35s cubic-bezier(.22,1,.36,1), flex-grow .1s linear;
+  }
+  /* fixed-height mode: bubble/body hug the pane's real content height (set inline via JS) */
+  .id-bubble.fit-content .id-body{
+    flex:0 0 auto;
+  }
+  .id-body .idpane{
+    position:absolute;
+    inset:0;
+    overflow-y:auto;
+    opacity:1;
+    transform:translateY(0);
+    transition:opacity .32s ease, transform .32s cubic-bezier(.22,1,.36,1);
+  }
+  .id-body .idpane.hidden{opacity:0;transform:translateY(10px);pointer-events:none;}
+  .id-body .idpane{
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+  .id-body .idpane::-webkit-scrollbar{width:0;height:0;display:none;}
+
+  /* INFO pane: heading pinned to top, lede text pinned to the bottom */
+  .id-body .idpane[data-pane="info"]{
+    display:flex;
+    flex-direction:column;
+  }
+  .info-heading{
+    font-size:11px;
+    color:var(--muted);
+    font-weight:700;
+    margin:0;
+    letter-spacing:.06em;
+    flex:0 0 auto;
+  }
+
+  /* lede text inside id-bubble */
+  .lede-text{font-family:'Inter', sans-serif;font-weight:400;font-size:17px;line-height:1.75;color:#33403f;margin:0;margin-top:auto;}
+
+  /* skills content (inside id-body, Skills tab) */
+  .skill-group{margin-bottom:16px;}
+  .skill-group:last-child{margin-bottom:2px;}
+  .skill-group h4{font-size:11px;color:var(--muted);font-weight:700;margin:0 0 9px;letter-spacing:.06em;}
+  .skill-group .pills{opacity:0;transform:translateY(8px);}
+  .id-body .idpane[data-pane="skills"]:not(.hidden) .skill-group .pills{
+    animation:skillGroupIn .5s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .id-body .idpane[data-pane="skills"]:not(.hidden) .skill-group:nth-child(1) .pills{animation-delay:.05s;}
+  .id-body .idpane[data-pane="skills"]:not(.hidden) .skill-group:nth-child(2) .pills{animation-delay:.15s;}
+  .id-body .idpane[data-pane="skills"]:not(.hidden) .skill-group:nth-child(3) .pills{animation-delay:.25s;}
+  @keyframes skillGroupIn{ to{opacity:1;transform:translateY(0);} }
+
+  .pill.soft{
+    background:linear-gradient(135deg, var(--primary), var(--primary-deep));
+    border-color:transparent;
+    color:#fff;
+  }
+  .pill.soft:hover{background:linear-gradient(135deg, var(--primary-soft), var(--primary));color:#fff;transform:translateY(-2px);}
+
+  .pill.hard{
+    background:#fff;
+    border-color:var(--primary-deep);
+    color:var(--primary-deep);
+    font-weight:700;
+  }
+  .pill.hard:hover{background:var(--primary-soft);border-color:var(--primary-deep);color:var(--primary-deep);}
+
+  /* tools — icon only */
+  .tool-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:14px 10px;}
+  .tool-item{
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    opacity:0;transform:translateY(8px) scale(.92);
+  }
+  .id-body .idpane[data-pane="skills"]:not(.hidden) .tool-item{
+    animation:toolIn .45s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .tool-item:nth-child(1){animation-delay:.30s;}
+  .tool-item:nth-child(2){animation-delay:.35s;}
+  .tool-item:nth-child(3){animation-delay:.40s;}
+  .tool-item:nth-child(4){animation-delay:.45s;}
+  .tool-item:nth-child(5){animation-delay:.50s;}
+  .tool-item:nth-child(6){animation-delay:.55s;}
+  .tool-item:nth-child(7){animation-delay:.60s;}
+  .tool-item:nth-child(8){animation-delay:.65s;}
+  @keyframes toolIn{ to{opacity:1;transform:translateY(0) scale(1);} }
+  .tool-icon{
+    position:relative;
+    width:46px;height:46px;border-radius:14px;
+    background:#fff;
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
+    box-shadow:0 8px 16px -10px rgba(79,107,118,.35);
+    overflow:hidden;
+  }
+  .tool-icon img{width:88%;height:88%;object-fit:contain;}
+  .tool-icon svg{width:32px;height:32px;color:var(--primary-deep);}
+  .tool-icon .tool-fallback{
+    position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, var(--primary), var(--primary-deep));color:#fff;font-weight:800;font-size:15px;
+  }
+  .tool-icon.full-logo{padding:0;background:none;border:none;box-shadow:0 8px 16px -8px rgba(79,107,118,.45);}
+  .tool-icon.full-logo svg{width:100%;height:100%;color:initial;border-radius:14px;}
+  .tool-item:hover .tool-icon{transform:translateY(-3px) scale(1.06);box-shadow:0 12px 20px -10px rgba(79,107,118,.45);}
+  .tool-label{font-size:10px;color:var(--muted);text-align:center;line-height:1.25;}
+
+  /* KONTAK — merged back into the header bubble (like the Profil pane), only the MAP is its own separate bubble */
+  .kontak-list{display:flex;flex-direction:column;gap:8px;}
+  .kontak-row{
+    display:flex;align-items:center;gap:13px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    opacity:0;transform:translateX(-14px);
+    transition:transform .22s cubic-bezier(.22,1,.36,1), border-color .2s ease, background .2s ease;
+  }
+  .kontak-row:hover{transform:translateY(-2px);border-color:var(--primary);background:var(--surface);}
+  .id-body .idpane[data-pane="kontak"]:not(.hidden) .kontak-row{
+    animation:kontakRowIn .5s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .id-body .idpane[data-pane="kontak"]:not(.hidden) .kontak-row:nth-child(1){animation-delay:.05s;}
+  .id-body .idpane[data-pane="kontak"]:not(.hidden) .kontak-row:nth-child(2){animation-delay:.15s;}
+  .id-body .idpane[data-pane="kontak"]:not(.hidden) .kontak-row:nth-child(3){animation-delay:.25s;}
+  @keyframes kontakRowIn{ to{opacity:1;transform:translateX(0);} }
+  .kontak-icon{
+    width:38px;height:38px;border-radius:50%;flex:0 0 auto;
+    background:var(--surface);color:var(--primary-deep);
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line);
+    transition:transform .25s cubic-bezier(.22,1,.36,1);
+  }
+  .kontak-row:hover .kontak-icon{transform:translateY(-2px) scale(1.06);}
+  .kontak-icon svg{width:18px;height:18px;}
+  .kontak-row-text{font-size:13.5px;font-weight:700;letter-spacing:.01em;color:var(--ink);}
+
+  /* MAP — separate bubble, same relationship as Pendidikan is to Profil.
+     In its normal state it keeps a fixed compact height; when the Kontak
+     pane is active it grows (flex:1) to absorb the space freed up by the
+     id-bubble shrinking, so the bottom (contact) bubble stays put instead
+     of sliding upward. */
+  .map-standalone{
+    padding:0;flex:0 0 auto;overflow:hidden;
+    max-height:120px;opacity:1;
+    display:flex;flex-direction:column;
+    transition:max-height .4s cubic-bezier(.22,1,.36,1), opacity .28s ease, border-width .35s ease, flex-grow .35s ease;
+  }
+  .map-standalone.collapsed{
+    max-height:0;opacity:0;border-width:0;pointer-events:none;flex:0 0 auto;
+  }
+  .map-standalone.expanded{
+    flex:1 1 auto;
+    max-height:none;
+  }
+  .map-label{
+    display:flex;align-items:center;gap:8px;
+    padding:7px 12px;
+    font-size:10.5px;font-weight:800;letter-spacing:.03em;
+    color:var(--muted);
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+    flex:0 0 auto;
+  }
+  .map-label svg{width:14px;height:14px;color:var(--primary-deep);flex:0 0 auto;}
+  .map-frame-wrap{position:relative;width:100%;flex:1;min-height:0;background:var(--paper);}
+  .map-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(.9);}
+
+  /* clients bubble */
+  .clients-bubble{padding:14px 0;overflow:hidden;}
+  .clients-bubble .lbl{padding:0 20px 10px;font-size:11px;color:var(--muted);letter-spacing:.02em;}
+  .clients{
+    overflow:hidden;
+    mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track{
+    display:flex;gap:26px;width:max-content;
+    animation:scrollLeft 16s linear infinite;
+    color:var(--ink);font-size:14px;font-weight:500;white-space:nowrap;
+  }
+  .clients-bubble:hover .marquee-track{animation-play-state:paused;}
+  @keyframes scrollLeft{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* skills bubbles */
+  .edu-bubble{
+    padding:16px 18px;flex:0 0 auto;display:flex;flex-direction:column;gap:12px;
+    max-height:280px;opacity:1;
+    transition:max-height .4s cubic-bezier(.22,1,.36,1), opacity .28s ease, padding .35s ease, margin .35s ease, border-width .35s ease;
+  }
+  .edu-bubble.collapsed{
+    max-height:0;opacity:0;padding-top:0;padding-bottom:0;border-width:0;pointer-events:none;
+  }
+  .edu-bubble h4{font-size:11px;color:var(--muted);font-weight:500;margin:0;letter-spacing:.02em;}
+  .edu-item{display:flex;gap:12px;align-items:flex-start;}
+  .edu-year{flex:0 0 84px;font-size:12px;color:var(--muted);padding-top:2px;}
+  .edu-degree{font-size:14px;font-weight:700;color:var(--ink);}
+  .edu-school{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .pills{display:flex;flex-wrap:wrap;gap:6px;}
+  .pill{
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;
+    color:var(--ink);background:var(--paper);
+    transition:transform .2s cubic-bezier(.22,1,.36,1), border-color .2s ease, background .2s ease, color .2s ease;
+  }
+  .pill:hover{transform:translateY(-2px);border-color:var(--primary);}
+  .pill.strong{background:var(--primary-soft);border-color:var(--primary-soft);color:var(--primary-deep);}
+  .pill.strong:hover{background:var(--primary);color:#fff;}
+
+  /* facts bubble */
+  .facts-bubble{padding:8px 4px;}
+  .facts{display:grid;grid-template-columns:1fr 1fr;}
+  .facts.one{grid-template-columns:1fr;}
+  .facts.four{grid-template-columns:repeat(4, 1fr);}
+  .facts > div{padding:10px 16px;border-radius:14px;transition:background .2s ease;position:relative;}
+  .facts > div:hover{background:var(--paper);}
+  .facts.four > div:not(:last-child)::after{
+    content:'';position:absolute;right:0;top:18%;bottom:18%;width:1px;background:var(--line);
+  }
+  .fact-label{font-size:11px;color:var(--muted);letter-spacing:.03em;order:2;margin-top:4px;}
+  .fact-value{font-family:'Inter', sans-serif;font-weight:800;font-size:24px;order:1;}
+  .facts > div{display:flex;flex-direction:column;}
+
+  /* contact bubble */
+  .contact-bubble{padding:8px;display:flex;gap:8px;align-items:center;}
+  .email-pill{
+    flex:1;border:1px solid var(--line);border-radius:999px;padding:11px 16px;
+    font-size:13.5px;color:var(--ink);background:var(--paper);
+    transition:border-color .2s ease;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .email-pill:hover{border-color:var(--primary);}
+  .icon-btn{
+    width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--paper);
+    display:flex;align-items:center;justify-content:center;color:var(--muted);flex:0 0 auto;
+    font-size:13px;
+    transition:border-color .2s ease, color .2s ease, transform .25s cubic-bezier(.22,1,.36,1), background .2s ease;
+  }
+  .icon-btn:hover{border-color:var(--primary);color:#fff;background:var(--primary);transform:translateY(-2px) rotate(-6deg);}
+  .icon-btn svg{width:16px;height:16px;}
+
+  /* ============ RIGHT: tabbed playground ============ */
+  .panel.right{
+    background:var(--surface);
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+    height:100%;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .panel-top{
+    display:flex;align-items:center;gap:8px;padding:5px;
+  }
+  .body-bubble{
+    flex:1;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+  }
+  /* RIGHT MENU — intentionally uses the exact same class system as Info/Skills/Kontak */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;}
+  .tabs.seg{flex:initial;justify-content:flex-start;}
+  .tabs.seg button{
+    border:1px solid var(--line);
+    background:var(--surface);
+    font-family:'Inter', sans-serif;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink);
+    padding:6px 9px 6px 14px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    transition:background .22s ease, color .22s ease, border-color .22s ease, transform .18s ease;
+  }
+  .tabs.seg button:hover{transform:translateY(-1px);border-color:var(--primary);}
+  .tabs.seg button .segtext{min-width:38px;text-align:left;font-variant-ligatures:none;}
+  .tabs.seg button .segicon{
+    width:18px;height:18px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;line-height:1;
+    border:1.5px solid currentColor;
+    flex:0 0 auto;
+    transition:transform .3s cubic-bezier(.22,1,.36,1);
+  }
+  .tabs.seg button.on{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+  }
+  .tabs.seg button.on .segicon{transform:rotate(180deg);}
+
+  .body{padding:0;flex:1;position:relative;overflow:hidden;min-height:0;}
+  .pane{
+    position:absolute;inset:0;padding:16px;overflow-y:auto;overflow-x:hidden;
+    opacity:1;transform:translateY(0);
+    transition:opacity .32s ease, transform .32s cubic-bezier(.22,1,.36,1);
+    scrollbar-width:none;-ms-overflow-style:none;
+  }
+  .pane::-webkit-scrollbar{width:0;height:0;display:none;}
+  .pane.hidden{opacity:0;transform:translateY(10px);pointer-events:none;}
+
+  /* Playground grid */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    grid-auto-rows:190px;
+    grid-auto-flow:dense;
+    gap:12px;
+  }
+  .card{
+    border-radius:var(--radius-sm);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:flex-end;
+    background:var(--paper);
+    border:1px solid var(--line);
+    opacity:0;
+    transform:translateY(28px) scale(.96);
+    transition:opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
+    will-change:opacity, transform;
+  }
+  .card.in-view{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 28px -18px rgba(28,37,40,.4);}
+  .card.in-view:hover{transform:translateY(-3px) scale(1);}
+  .card.tall{grid-row:span 2;}
+  .card.wide{grid-column:span 2;grid-row:span 2;}
+  .card img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+  .card .mark-card{
+    width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+    background:var(--ink);
+  }
+  .card .mark-card svg{width:58px;height:58px;}
+  .card .grad{
+    width:100%;height:100%;background:linear-gradient(150deg, var(--primary-deep), var(--primary) 60%, var(--primary-soft));
+  }
+  .card-label{
+    position:relative;z-index:2;padding:12px 14px;color:#fff;font-size:13px;font-weight:500;
+    background:linear-gradient(0deg, rgba(0,0,0,.55), transparent);
+    width:100%;
+  }
+  .card.plain .card-label{color:var(--ink);background:none;}
+
+  /* Experience list (kept as second tab) */
+  .exp-item{display:flex;gap:14px;padding:16px 12px;border-bottom:1px solid var(--line);border-radius:14px;transition:background .2s ease, padding-left .2s ease;}
+  .exp-item:hover{background:#425C66;padding-left:16px;}
+  .exp-item:hover .exp-time{color:#C7D9DF;}
+  .exp-item:hover .exp-main h4{color:#ffffff;}
+  .exp-item:hover .exp-main .company{color:#C7D9DF;}
+  .exp-item:hover .exp-main p{color:#F3F1EC;}
+  .exp-item:last-child{border-bottom:none;}
+  .exp-time{flex:0 0 92px;font-size:12px;color:var(--muted);padding-top:2px;transition:color .2s ease;}
+  .exp-main h4{font-family:'Inter', sans-serif;font-weight:700;font-size:16px;margin:0 0 3px;transition:color .2s ease;}
+  .exp-main .company{color:var(--primary-deep);font-size:13px;margin-bottom:6px;transition:color .2s ease;}
+  .exp-main p{font-size:14.5px;font-weight:400;line-height:1.6;color:#33403f;margin:0;transition:color .2s ease;}
+
+  /* empty state for Pengalaman (temporarily cleared) */
+  .exp-empty{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:8px;
+    color:var(--muted);
+    padding:24px;
+  }
+  .exp-empty .exp-empty-icon{
+    width:44px;height:44px;border-radius:50%;
+    background:var(--paper);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:4px;
+  }
+  .exp-empty .exp-empty-icon svg{width:20px;height:20px;color:var(--primary-deep);}
+  .exp-empty p{margin:0;font-size:13.5px;font-weight:500;}
+
+  /* ============ Lightbox modal for playground images ============ */
+  .lightbox-overlay{
+    position:fixed;inset:0;
+    background:rgba(28,37,40,.82);
+    display:flex;align-items:center;justify-content:center;
+    z-index:999;
+    padding:40px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+  }
+  .lightbox-overlay.open{
+    opacity:1;
+    pointer-events:auto;
+  }
+  .lightbox-content{
+    position:relative;
+    max-width:90vw;
+    max-height:88vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    transform:scale(.94);
+    transition:transform .28s cubic-bezier(.22,1,.36,1);
+  }
+  .lightbox-overlay.open .lightbox-content{
+    transform:scale(1);
+  }
+  .lightbox-content img{
+    max-width:90vw;
+    max-height:78vh;
+    border-radius:var(--radius-sm);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.5);
+    display:block;
+  }
+  .lightbox-caption{
+    margin-top:14px;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    text-align:center;
+  }
+  .lightbox-close{
+    position:absolute;
+    top:-18px;right:-18px;
+    width:38px;height:38px;border-radius:50%;
+    background:var(--surface);
+    border:1px solid var(--line);
+    color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s cubic-bezier(.22,1,.36,1), background .2s ease, color .2s ease;
+  }
+  .lightbox-close:hover{background:var(--primary);color:#fff;transform:rotate(90deg);}
+  .lightbox-close svg{width:16px;height:16px;}
+  .card.clickable{cursor:inherit;}
+
+  @media (max-width: 860px){
+    body{overflow-y:auto;height:auto;min-height:100vh;padding:10px;}
+    .app{grid-template-columns:1fr;height:auto;grid-auto-rows:min-content;}
+    .stack{overflow:visible;}
+    .panel.right{height:auto;}
+    .body{position:relative;min-height:420px;}
+    .grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px;grid-auto-flow:dense;}
+    .lightbox-close{top:-14px;right:0;}
+
+    /* ---- merge the right box into the left box: 1 card, 5-item menu ---- */
+    .seg button.mobile-only-tab{display:flex;}
+    .app > .stack:last-of-type{display:none;}
+
+    /* The desktop pane system (position:absolute panes inside a flex:1 box)
+       is built for a fixed 100vh app shell with internal scrolling. On
+       mobile the page scrolls naturally instead, so panes need to sit in
+       normal flow and size to their own content — otherwise the active
+       pane gets stuck inside a fixed-height inner box, either clipping tall
+       content (Playground/Pengalaman) or leaving blank space behind. */
+    .id-bubble{flex:0 0 auto !important;}
+    .id-body{
+      position:static;
+      flex:0 0 auto;
+      min-height:0;
+      height:auto !important;
+    }
+    .id-body .idpane{
+      position:static;
+      inset:auto;
+      opacity:1;
+      transform:none;
+      overflow-y:visible;
+    }
+    .id-body .idpane.hidden{
+      display:none;
+    }
+    .id-body .idpane[data-pane="info"].hidden{
+      display:none;
+    }
+    .lede-text{margin-top:14px;}
+    .map-standalone.expanded{flex:0 0 auto;}
+
+    /* Fix horizontal overflow ("menembus ke kanan"): flex/grid children
+       default to min-width:auto, which stops them shrinking below their
+       content's natural (unwrapped) width — e.g. the name text, email,
+       or contact rows refusing to wrap and pushing the whole card wider
+       than the phone screen. Breaking that chain lets everything wrap
+       and shrink to fit instead. */
+    .app, .stack, .bubble, .topbar, .seg, .id-top, .id-top > div,
+    .id-bubble, .id-body, .id-body .idpane, .kontak-row, .kontak-row-text,
+    .exp-item, .exp-main, .tabs, .tabs.seg, .contact-bubble, .email-pill,
+    .facts, .facts > div{
+      min-width: 0;
+    }
+    .name, .role, .kontak-row-text, .exp-main h4, .exp-main p,
+    .exp-main .company, .email-pill, .edu-degree, .edu-school{
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- LEFT: stack of bubbles -->
+  <div class="stack">
+
+    <div class="bubble topbar">
+      <div class="mark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L14.2 9.2L21 12L14.2 14.8L12 22L9.8 14.8L3 12L9.8 9.2L12 2Z" fill="white"/>
+        </svg>
+      </div>
+      <div class="seg">
+        <button class="on" data-target="info"><span class="segtext" data-id="Info" data-en="Info">Info</span> <span class="segicon">−</span></button>
+        <button data-target="skills"><span class="segtext" data-id="Skills" data-en="Skills">Skills</span> <span class="segicon">+</span></button>
+        <button data-target="kontak"><span class="segtext" data-id="Kontak" data-en="Contact">Kontak</span> <span class="segicon">+</span></button>
+        <button class="mobile-only-tab" data-target="playground"><span class="segtext" data-id="Playground" data-en="Playground">Playground</span> <span class="segicon">+</span></button>
+        <button class="mobile-only-tab" data-target="experience"><span class="segtext" data-id="Pengalaman" data-en="Experience">Pengalaman</span> <span class="segicon">+</span></button>
+      </div>
+    </div>
+
+    <div class="bubble id-bubble" id="id-bubble-el">
+      <div class="id-top">
+        <div class="avatar" aria-label="Avatar Razita"></div>
+        <div>
+          <p class="name">Razita Fakhira Irdina</p>
+          <p class="role" data-id="Market Analyst" data-en="Market Analyst"></p>
+          <div class="lang-switch" role="group" aria-label="Pilih bahasa">
+            <button class="on" data-lang="id">ID</button>
+            <button data-lang="en">EN</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="id-body" id="id-body-el">
+
+        <!-- INFO pane -->
+        <div class="idpane" data-pane="info">
+          <h4 class="info-heading" data-id="TENTANG SAYA" data-en="ABOUT ME"></h4>
+          <p class="lede-text"
+             data-id="Mahasiswi Agribisnis semester tujuh di Universitas Singaperbangsa Karawang, tertarik pada agribisnis, pengembangan masyarakat, dan kegiatan organisasi. Terbiasa bekerja dalam tim, teliti, dan bertanggung jawab — pembelajar cepat yang adaptif dan ingin terus berkembang sambil memberi dampak positif bagi masyarakat."
+             data-en="Seventh-semester Agribusiness student at Universitas Singaperbangsa Karawang, interested in agribusiness, community development, and organizational activities. Used to working in teams, thorough, and responsible — a fast, adaptive learner who wants to keep growing while making a positive impact on society."></p>
+        </div>
+
+        <!-- SKILLS pane -->
+        <div class="idpane hidden" data-pane="skills">
+          <div class="skill-group">
+            <h4 data-id="KEMAMPUAN NON-TEKNIS" data-en="SOFT SKILLS"></h4>
+            <div class="pills">
+              <span class="pill soft" data-id="Manajemen Waktu" data-en="Time Management"></span>
+              <span class="pill soft" data-id="Kerja Tim &amp; Kolaborasi" data-en="Teamwork &amp; Collaboration"></span>
+              <span class="pill soft" data-id="Komunikasi Efektif" data-en="Effective Communication"></span>
+              <span class="pill soft" data-id="Pemecahan Masalah" data-en="Problem Solving"></span>
+              <span class="pill soft" data-id="Kepemimpinan" data-en="Leadership"></span>
+              <span class="pill soft" data-id="Adaptabilitas" data-en="Adaptability"></span>
+              <span class="pill soft" data-id="Kreativitas &amp; Inovasi" data-en="Creativity &amp; Innovation"></span>
+              <span class="pill soft" data-id="Ketelitian" data-en="Attention to Detail"></span>
+              <span class="pill soft" data-id="Riset &amp; Pengumpulan Data" data-en="Research &amp; Data Collection"></span>
+              <span class="pill soft" data-id="Manajemen Acara" data-en="Event Management"></span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <h4 data-id="KEMAMPUAN TEKNIS" data-en="HARD SKILLS"></h4>
+            <div class="pills">
+              <span class="pill hard" data-id="Manajemen Agribisnis" data-en="Agribusiness Management"></span>
+              <span class="pill hard" data-id="Analisis Bisnis Pertanian" data-en="Agricultural Business Analysis"></span>
+              <span class="pill hard" data-id="Pemasaran &amp; Analisis Pasar" data-en="Marketing &amp; Market Analysis"></span>
+              <span class="pill hard" data-id="Manajemen Rantai Pasok" data-en="Supply Chain Management"></span>
+              <span class="pill hard" data-id="Analisis Keuangan &amp; Biaya Dasar" data-en="Basic Financial &amp; Cost Analysis"></span>
+              <span class="pill hard" data-id="Analisis Kelayakan Dasar" data-en="Basic Feasibility Analysis"></span>
+              <span class="pill hard" data-id="Analisis &amp; Interpretasi Data Dasar" data-en="Basic Data Analysis &amp; Interpretation"></span>
+              <span class="pill hard" data-id="Manajemen Produksi Pertanian Dasar" data-en="Basic Agricultural Production Management"></span>
+              <span class="pill hard" data-id="Manajemen Risiko Dasar" data-en="Basic Risk Management"></span>
+              <span class="pill hard" data-id="Manajemen Organisasi &amp; Administrasi Dasar" data-en="Basic Organizational &amp; Administrative Management"></span>
+              <span class="pill hard" data-id="Penyusunan Laporan &amp; Dokumentasi" data-en="Report &amp; Documentation Preparation"></span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <h4 data-id="ALAT" data-en="TOOLS"></h4>
+            <div class="tool-grid">
+              <div class="tool-item">
+                <div class="tool-icon" title="Microsoft Word">
+                  <div class="tool-fallback">W</div>
+                </div>
+                <div class="tool-label">Word</div>
+              </div>
+              <div class="tool-item">
+                <div class="tool-icon" title="Microsoft PowerPoint">
+                  <div class="tool-fallback">P</div>
+                </div>
+                <div class="tool-label">PowerPoint</div>
+              </div>
+              <div class="tool-item">
+                <div class="tool-icon" title="Microsoft Excel">
+                  <div class="tool-fallback">X</div>
+                </div>
+                <div class="tool-label">Excel</div>
+              </div>
+              <div class="tool-item">
+                <div class="tool-icon" title="Google Workspace">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="8" height="10" rx="1.6" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="3" width="8" height="6" rx="1.6" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="11" width="8" height="10" rx="1.6" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="15" width="8" height="6" rx="1.6" stroke="currentColor" stroke-width="1.8"/></svg>
+                </div>
+                <div class="tool-label">Workspace</div>
+              </div>
+              <div class="tool-item">
+                <div class="tool-icon" title="Canva">
+                  <div class="tool-fallback">C</div>
+                </div>
+                <div class="tool-label">Canva</div>
+              </div>
+              <div class="tool-item">
+                <div class="tool-icon" title="Zoom">
+                  <img src="https://cdn.simpleicons.org/zoom/2D8CFF" alt="Zoom" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                  <div class="tool-fallback">Z</div>
+                </div>
+                <div class="tool-label">Zoom / Meet</div>
+              </div>
+              <div class="tool-item">
+                <div class="tool-icon" title="SPSS">
+                  <div class="tool-fallback">S</div>
+                </div>
+                <div class="tool-label">SPSS</div>
+              </div>
+              <div class="tool-item">
+                <div class="tool-icon full-logo" title="E-Views">
+                  <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="eviewsAccent" x1="0" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#94B4C1"/>
+                        <stop offset="1" stop-color="#4F6B76"/>
+                      </linearGradient>
+                    </defs>
+                    <rect x="0" y="0" width="600" height="600" rx="132" fill="#ffffff" stroke="#E4E1D8" stroke-width="6"/>
+                    <text x="128" y="410" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="300" fill="url(#eviewsAccent)">E</text>
+                    <polyline points="320,430 372,368 424,398 476,308 516,256" fill="none" stroke="url(#eviewsAccent)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" opacity="0.96"/>
+                    <circle cx="320" cy="430" r="14" fill="#0E2A52"/>
+                    <circle cx="372" cy="368" r="14" fill="#0E2A52"/>
+                    <circle cx="424" cy="398" r="14" fill="#0E2A52"/>
+                    <circle cx="476" cy="308" r="14" fill="#0E2A52"/>
+                    <circle cx="516" cy="256" r="14" fill="#0E2A52"/>
+                  </svg>
+                </div>
+                <div class="tool-label">E-Views</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KONTAK pane — merged into this same header bubble, like the Profil (info) pane -->
+        <div class="idpane hidden" data-pane="kontak">
+          <div class="kontak-list">
+            <div class="kontak-row">
+              <div class="kontak-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.2 1.1L6.6 10.8Z" fill="currentColor"/></svg>
+              </div>
+              <div class="kontak-row-text">0852-1834-9064</div>
+            </div>
+            <div class="kontak-row">
+              <div class="kontak-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 6.5 12 13l8.5-6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="kontak-row-text">razitafakhira280@gmail.com</div>
+            </div>
+            <div class="kontak-row">
+              <div class="kontak-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="7" r="1.1" fill="currentColor"/></svg>
+              </div>
+              <div class="kontak-row-text">@razitafkhra_</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MAPS — its own separate bubble, same relationship as Pendidikan is to Profil -->
+    <div class="bubble map-standalone collapsed" id="map-bubble-el">
+      <div class="map-label">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s7-6.2 7-11.5C19 5.4 15.9 2 12 2S5 5.4 5 9.5C5 14.8 12 21 12 21Z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9.5" r="2.6" stroke="currentColor" stroke-width="1.8"/></svg>
+        MAJALENGKA, CIKASARUNG
+      </div>
+      <div class="map-frame-wrap">
+        <iframe
+          src="https://www.google.com/maps?q=Cikasarung,+Majalengka,+Jawa+Barat&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="bubble edu-bubble" id="edu-bubble-el">
+      <h4 data-id="PENDIDIKAN" data-en="EDUCATION"></h4>
+      <div class="edu-item">
+        <div class="edu-year">2023 — sekarang</div>
+        <div class="edu-main">
+          <div class="edu-degree" data-id="S1 Agribisnis" data-en="Bachelor's Degree in Agribusiness"></div>
+          <div class="edu-school">Universitas Singaperbangsa Karawang</div>
+        </div>
+      </div>
+
+      <div class="facts four">
+        <div>
+          <div class="fact-value">7</div>
+          <div class="fact-label" data-id="Semester" data-en="Semester"></div>
+        </div>
+        <div>
+          <div class="fact-value">3.56</div>
+          <div class="fact-label" data-id="GPA" data-en="GPA"></div>
+        </div>
+        <div>
+          <div class="fact-value">7</div>
+          <div class="fact-label" data-id="Pengalaman" data-en="Experiences"></div>
+        </div>
+        <div>
+          <div class="fact-value">2023</div>
+          <div class="fact-label" data-id="Tahun Masuk" data-en="Entry Year"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bubble contact-bubble">
+      <div class="email-pill">hello@rakawibawa.co</div>
+      <div class="icon-btn" id="copy-email-btn" data-title-id="Salin email" data-title-en="Copy email" title="Salin email">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="1.8"/></svg>
+      </div>
+      <div class="icon-btn" title="LinkedIn">in</div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: tabbed, as two separate stacked bubbles -->
+  <div class="stack">
+    <div class="bubble panel-top">
+      <div class="tabs seg">
+        <button class="on" data-target="playground">
+          <span class="segicon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.2 9.2L21 12L14.2 14.8L12 22L9.8 14.8L3 12L9.8 9.2L12 2Z" fill="currentColor"/></svg></span>
+          <span class="segtext" data-id="Playground" data-en="Playground"></span>
+        </button>
+        <button data-target="experience">
+          <span class="segicon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2"/></svg></span>
+          <span class="segtext" data-id="Pengalaman" data-en="Experience"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="bubble body-bubble">
+    <div class="body">
+
+      <!-- PLAYGROUND: image/project grid -->
+      <div id="playground" class="pane">
+        <div class="grid">
+          <div class="card wide">
+            <img src="assets/playground/agrifair-24-1.jpg" alt="Agrifair 24" loading="lazy">
+            <div class="card-label" data-id="Agrifair 24" data-en="Agrifair 24"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/agrifair-24-2.jpg" alt="Agrifair 24" loading="lazy">
+            <div class="card-label" data-id="Agrifair 24" data-en="Agrifair 24"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/agrifair-24-3.jpg" alt="Agrifair 24" loading="lazy">
+            <div class="card-label" data-id="Agrifair 24" data-en="Agrifair 24"></div>
+          </div>
+          <div class="card wide">
+            <img src="assets/playground/agrifair-25-1.jpg" alt="Agrifair 25" loading="lazy">
+            <div class="card-label" data-id="Agrifair 25" data-en="Agrifair 25"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/agrifair-25-2.jpg" alt="Agrifair 25" loading="lazy">
+            <div class="card-label" data-id="Agrifair 25" data-en="Agrifair 25"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/agrifair-25-3.jpg" alt="Agrifair 25" loading="lazy">
+            <div class="card-label" data-id="Agrifair 25" data-en="Agrifair 25"></div>
+          </div>
+          <div class="card wide">
+            <img src="assets/playground/dies-natalis-himagri-1.jpg" alt="HIMAGRI Anniversary" loading="lazy">
+            <div class="card-label" data-id="Dies Natalis HIMAGRI" data-en="HIMAGRI Anniversary"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/dies-natalis-himagri-2.jpg" alt="HIMAGRI Anniversary" loading="lazy">
+            <div class="card-label" data-id="Dies Natalis HIMAGRI" data-en="HIMAGRI Anniversary"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/dies-natalis-himagri-3.jpg" alt="HIMAGRI Anniversary" loading="lazy">
+            <div class="card-label" data-id="Dies Natalis HIMAGRI" data-en="HIMAGRI Anniversary"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/dies-natalis-himagri-4.jpg" alt="HIMAGRI Anniversary" loading="lazy">
+            <div class="card-label" data-id="Dies Natalis HIMAGRI" data-en="HIMAGRI Anniversary"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/dies-natalis-himagri-5.jpg" alt="HIMAGRI Anniversary" loading="lazy">
+            <div class="card-label" data-id="Dies Natalis HIMAGRI" data-en="HIMAGRI Anniversary"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/dies-natalis-himagri-6.jpg" alt="HIMAGRI Anniversary" loading="lazy">
+            <div class="card-label" data-id="Dies Natalis HIMAGRI" data-en="HIMAGRI Anniversary"></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/himagri-dept-medbrand-1.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/himagri-dept-medbrand-2.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/himagri-dept-medbrand-3.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/himagri-dept-medbrand-4.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/himagri-dept-medbrand-5.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/himagri-dept-medbrand-6.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/himagri-dept-medbrand-7.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/himagri-dept-medbrand-8.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/himagri-dept-medbrand-9.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/himagri-dept-medbrand-10.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/himagri-dept-medbrand-11.jpg" alt="HIMAGRI — Media &amp; Branding Dept." loading="lazy">
+            <div class="card-label" data-id="HIMAGRI — Dept. Media &amp; Branding" data-en="HIMAGRI — Media &amp; Branding Dept."></div>
+          </div>
+          <div class="card wide">
+            <img src="assets/playground/ioa-himagri-1.jpg" alt="IOA HIMAGRI" loading="lazy">
+            <div class="card-label" data-id="IOA HIMAGRI" data-en="IOA HIMAGRI"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/ioa-himagri-2.jpg" alt="IOA HIMAGRI" loading="lazy">
+            <div class="card-label" data-id="IOA HIMAGRI" data-en="IOA HIMAGRI"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/ioa-himagri-3.jpg" alt="IOA HIMAGRI" loading="lazy">
+            <div class="card-label" data-id="IOA HIMAGRI" data-en="IOA HIMAGRI"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/ioa-himagri-4.jpg" alt="IOA HIMAGRI" loading="lazy">
+            <div class="card-label" data-id="IOA HIMAGRI" data-en="IOA HIMAGRI"></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/ioa-himagri-5.jpg" alt="IOA HIMAGRI" loading="lazy">
+            <div class="card-label" data-id="IOA HIMAGRI" data-en="IOA HIMAGRI"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/ioa-himagri-6.jpg" alt="IOA HIMAGRI" loading="lazy">
+            <div class="card-label" data-id="IOA HIMAGRI" data-en="IOA HIMAGRI"></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/magang-1.jpg" alt="Internship" loading="lazy">
+            <div class="card-label" data-id="Magang" data-en="Internship"></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/magang-2.jpg" alt="Internship" loading="lazy">
+            <div class="card-label" data-id="Magang" data-en="Internship"></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/magang-3.jpg" alt="Internship" loading="lazy">
+            <div class="card-label" data-id="Magang" data-en="Internship"></div>
+          </div>
+          <div class="card wide">
+            <img src="assets/playground/sertif-1.jpg" alt="Certificates &amp; Achievements" loading="lazy">
+            <div class="card-label" data-id="Sertifikat &amp; Pencapaian" data-en="Certificates &amp; Achievements"></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/sertif-2.jpg" alt="Certificates &amp; Achievements" loading="lazy">
+            <div class="card-label" data-id="Sertifikat &amp; Pencapaian" data-en="Certificates &amp; Achievements"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/sertif-3.jpg" alt="Certificates &amp; Achievements" loading="lazy">
+            <div class="card-label" data-id="Sertifikat &amp; Pencapaian" data-en="Certificates &amp; Achievements"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/sertif-4.jpg" alt="Certificates &amp; Achievements" loading="lazy">
+            <div class="card-label" data-id="Sertifikat &amp; Pencapaian" data-en="Certificates &amp; Achievements"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/sertif-5.jpg" alt="Certificates &amp; Achievements" loading="lazy">
+            <div class="card-label" data-id="Sertifikat &amp; Pencapaian" data-en="Certificates &amp; Achievements"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/sertif-6.jpg" alt="Certificates &amp; Achievements" loading="lazy">
+            <div class="card-label" data-id="Sertifikat &amp; Pencapaian" data-en="Certificates &amp; Achievements"></div>
+          </div>
+          <div class="card wide">
+            <img src="assets/playground/usipreneur-1.jpg" alt="USIPRENEUR" loading="lazy">
+            <div class="card-label" data-id="USIPRENEUR" data-en="USIPRENEUR"></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/usipreneur-2.jpg" alt="USIPRENEUR" loading="lazy">
+            <div class="card-label" data-id="USIPRENEUR" data-en="USIPRENEUR"></div>
+          </div>
+          <div class="card tall">
+            <img src="assets/playground/usipreneur-3.jpg" alt="USIPRENEUR" loading="lazy">
+            <div class="card-label" data-id="USIPRENEUR" data-en="USIPRENEUR"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/usipreneur-4.jpg" alt="USIPRENEUR" loading="lazy">
+            <div class="card-label" data-id="USIPRENEUR" data-en="USIPRENEUR"></div>
+          </div>
+          <div class="card">
+            <img src="assets/playground/usipreneur-5.jpg" alt="USIPRENEUR" loading="lazy">
+            <div class="card-label" data-id="USIPRENEUR" data-en="USIPRENEUR"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+<div id="experience" class="pane hidden">
+
+  <div class="exp-item">
+    <div class="exp-time">2025</div>
+    <div class="exp-main">
+      <h4 data-id="Magang" data-en="Internship"></h4>
+      <div class="company">PT. Juragan Eternak Indonesia, Bekasi</div>
+      <p data-id="Mempromosikan produk melalui berbagai kanal pemasaran, melayani pelanggan via WhatsApp, mengelola data pelanggan, serta membantu proses produksi fillet &amp; katsu lele sesuai standar kualitas dan kebersihan."
+         data-en="Promoted products through various marketing channels, communicated with customers via WhatsApp, managed customer data, and assisted in catfish fillet &amp; katsu production according to quality and hygiene standards."></p>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-time">2025</div>
+    <div class="exp-main">
+      <h4 data-id="Divisi Event Committee — AGRIFAIR 2025" data-en="Event Committee Division — AGRIFAIR 2025"></h4>
+      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <p data-id="Membantu perencanaan dan pelaksanaan acara Agrifair 2025, mengoordinasikan jadwal acara dan registrasi peserta, serta mendukung pelaksanaan Seminar Nasional dan Business Plan Competition."
+         data-en="Assisted in planning and organizing the Agrifair 2025 event, coordinated event schedules and participant registration, and supported the execution of the National Seminar and Business Plan Competition."></p>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-time">2025</div>
+    <div class="exp-main">
+      <h4 data-id="Koordinator Publikasi, Dekorasi &amp; Dokumentasi — Dies Natalis HIMAGRI ke-7" data-en="Publication, Decoration &amp; Documentation Coordinator — 7th HIMAGRI Anniversary"></h4>
+      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <p data-id="Memimpin tim PDD dalam merencanakan dan melaksanakan publikasi, dekorasi, dan dokumentasi, serta mengembangkan konsep visual dan branding untuk acara Dies Natalis HIMAGRI ke-7."
+         data-en="Led the PDD team in planning and executing publication, decoration, and documentation activities, and developed the visual concept and branding for the 7th HIMAGRI Anniversary event."></p>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-time">2025</div>
+    <div class="exp-main">
+      <h4 data-id="Divisi Publikasi, Dekorasi &amp; Dokumentasi — Introduction of Agribusiness" data-en="Publication, Decoration &amp; Documentation Division — Introduction of Agribusiness"></h4>
+      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <p data-id="Merancang materi promosi, mengelola publikasi informasi acara, mengembangkan konsep visual &amp; dekorasi, serta mendokumentasikan kegiatan Introduction of Agribusiness 2025."
+         data-en="Designed promotional materials, managed event information publication, developed visual concepts &amp; decorations, and documented the Introduction of Agribusiness 2025 activities."></p>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-time">2025</div>
+    <div class="exp-main">
+      <h4 data-id="Staff Departemen Media &amp; Branding" data-en="Staff of Media &amp; Branding Department"></h4>
+      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <p data-id="Mengelola konten media sosial untuk memperkuat branding organisasi, merancang materi promosi, dan mengembangkan konsep visual untuk berbagai program dan kegiatan organisasi."
+         data-en="Managed social media content to strengthen organizational branding, designed promotional materials, and developed visual concepts for various organizational programs and activities."></p>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-time">2024</div>
+    <div class="exp-main">
+      <h4 data-id="Divisi Publikasi, Dekorasi &amp; Dokumentasi — AGRIFAIR 2024" data-en="Publication, Decoration &amp; Documentation Division — AGRIFAIR 2024"></h4>
+      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <p data-id="Menyusun materi promosi acara, mengelola publikasi di media sosial, mengembangkan konsep visual &amp; dekorasi, serta mendokumentasikan seluruh rangkaian acara Agrifair 2024 termasuk Seminar Nasional."
+         data-en="Prepared event promotional materials, managed social media publication, developed visual concepts &amp; decorations, and documented the entire Agrifair 2024 event including the National Seminar."></p>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-time">2023</div>
+    <div class="exp-main">
+      <h4 data-id="Divisi Produksi — USIPRENEUR" data-en="Production Division — USIPRENEUR"></h4>
+      <div class="company">UKM Unit Studi Ilmiah</div>
+      <p data-id="Mengelola proses produksi sabun berbahan dasar eco-enzyme dari persiapan hingga produk akhir, termasuk pengukuran bahan baku, pencampuran, pengemasan, dan pengecekan kualitas produk."
+         data-en="Managed the eco-enzyme-based soap production process from preparation to final product, including raw material measurement, mixing, packaging, and quality checks."></p>
+    </div>
+  </div>
+
+</div>
+
+    </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==== Lightbox modal (Playground image preview) ==== -->
+<div class="lightbox-overlay" id="lightbox-overlay">
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
+<script>
+  // ---- text scramble effect for segmented control labels ----
+  const SCRAMBLE_CHARS = '!<>-_\\/[]{}—=+*^?#$0123456789';
+  function scrambleText(el){
+    if(!el || el.dataset.scrambling === '1') return;
+    const original = el.textContent;
+    el.dataset.scrambling = '1';
+    let iteration = 0;
+    clearInterval(el._scrambleTimer);
+    el._scrambleTimer = setInterval(() => {
+      el.textContent = original
+        .split('')
+        .map((char, index) => {
+          if(char === ' ') return ' ';
+          if(index < iteration) return original[index];
+          return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        })
+        .join('');
+      if(iteration >= original.length){
+        clearInterval(el._scrambleTimer);
+        el.textContent = original;
+        el.dataset.scrambling = '0';
+      }
+      iteration += 1 / 2.2;
+    }, 28);
+  }
+
+  // ---- ID / EN language switch ----
+  // Any element carrying both data-id and data-en attributes gets its
+  // textContent swapped when the language changes (used for real text labels).
+  // Elements carrying data-title-id / data-title-en instead only get their
+  // `title` tooltip swapped, so icon-only buttons keep their icon.
+  function setLang(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-id][data-en]').forEach(el => {
+      const value = lang === 'en' ? el.dataset.en : el.dataset.id;
+      el.textContent = value;
+      if(el.hasAttribute('title')) el.setAttribute('title', value);
+    });
+    document.querySelectorAll('[data-title-id][data-title-en]').forEach(el => {
+      const value = lang === 'en' ? el.dataset.titleEn : el.dataset.titleId;
+      el.setAttribute('title', value);
+    });
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.classList.toggle('on', b.dataset.lang === lang);
+    });
+    // re-run the sizing pass for the Kontak pane in case content height changed
+    if(document.querySelector('.seg button.on')?.dataset.target === 'kontak'){
+      applyBubbleSizing('kontak');
+    }
+  }
+
+  document.querySelectorAll('.lang-switch').forEach(group => {
+    const btns = group.querySelectorAll('button');
+    btns.forEach(b => {
+      b.addEventListener('click', () => setLang(b.dataset.lang));
+    });
+  });
+
+  // ---- copy email button ----
+  const copyEmailBtn = document.getElementById('copy-email-btn');
+  if(copyEmailBtn){
+    copyEmailBtn.addEventListener('click', () => {
+      const email = document.querySelector('.email-pill')?.textContent.trim();
+      if(email && navigator.clipboard){
+        navigator.clipboard.writeText(email).catch(() => {});
+      }
+    });
+  }
+
+  // ---- segmented control: Info / Skills / Kontak (+ Playground / Pengalaman on mobile) ----
+  const eduBubbleEl = document.getElementById('edu-bubble-el');
+  const mapBubbleEl = document.getElementById('map-bubble-el');
+  const idBubbleEl = document.getElementById('id-bubble-el');
+  const idBodyEl = document.getElementById('id-body-el');
+  const kontakListEl = document.querySelector('.kontak-list');
+
+  // Sizes the id-bubble so it hugs its content exactly up to the last row
+  // (Instagram) when the Kontak pane is active, instead of stretching to
+  // fill the whole remaining column height.
+  function applyBubbleSizing(target){
+    if(target === 'kontak' && kontakListEl){
+      const contentHeight = kontakListEl.scrollHeight;
+      idBodyEl.style.height = contentHeight + 'px';
+      // allow the height transition to run before switching to a fixed flex-basis
+      idBubbleEl.classList.add('fit-content');
+    } else {
+      idBubbleEl.classList.remove('fit-content');
+      idBodyEl.style.height = '';
+    }
+  }
+
+  // Panes that only exist inside #id-body-el on mobile (moved there in
+  // mergeRightIntoLeftOnMobile below) still respond to the exact same
+  // click handler below — idPanes is re-queried on every click so it
+  // always reflects whichever panes currently live inside the id-body.
+  document.querySelectorAll('.topbar .seg').forEach(seg => {
+    const btns = seg.querySelectorAll('button');
+    btns.forEach(b => {
+      b.addEventListener('click', () => {
+        btns.forEach(x => {
+          x.classList.remove('on');
+          const icon = x.querySelector('.segicon');
+          if(icon) icon.textContent = '+';
+        });
+        b.classList.add('on');
+        const activeIcon = b.querySelector('.segicon');
+        if(activeIcon) activeIcon.textContent = '−';
+
+        const target = b.dataset.target;
+        const idPanes = document.querySelectorAll('.id-body .idpane');
+        idPanes.forEach(p => p.classList.toggle('hidden', p.dataset.pane !== target));
+        eduBubbleEl.classList.toggle('collapsed', target !== 'info');
+        mapBubbleEl.classList.toggle('collapsed', target !== 'kontak');
+        mapBubbleEl.classList.toggle('expanded', target === 'kontak');
+        applyBubbleSizing(target);
+
+        // keep the standalone right-side tabs (desktop) in sync when a
+        // Playground/Pengalaman button was clicked from the merged mobile menu
+        if(target === 'playground' || target === 'experience'){
+          document.querySelectorAll('.tabs.seg button').forEach(t => {
+            t.classList.toggle('on', t.dataset.target === target);
+          });
+        }
+      });
+      b.addEventListener('mouseenter', () => scrambleText(b.querySelector('.segtext')));
+    });
+  });
+
+  // ---- tabs in the right panel (desktop) ----
+  document.querySelectorAll('.tabs.seg').forEach(tabGroup => {
+    const tabs = tabGroup.querySelectorAll('button');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('on'));
+        tab.classList.add('on');
+        const pgEl = document.getElementById('playground');
+        const expEl = document.getElementById('experience');
+        if(pgEl) pgEl.classList.add('hidden');
+        if(expEl) expEl.classList.add('hidden');
+        const activeEl = document.getElementById(tab.dataset.target);
+        if(activeEl) activeEl.classList.remove('hidden');
+      });
+    });
+  });
+
+  // ---- Mobile <= 860px: merge the right box (Playground/Pengalaman) into
+  // the left box, so there is only 1 card with a 5-item menu. The contact
+  // bar at the bottom (email + copy + LinkedIn) is left untouched and stays
+  // visible no matter which menu item is active. ----
+  (function mergeRightIntoLeftOnMobile(){
+    const mq = window.matchMedia('(max-width: 860px)');
+    const playgroundEl = document.getElementById('playground');
+    const experienceEl = document.getElementById('experience');
+    const rightBodyDiv = playgroundEl ? playgroundEl.parentElement : null; // .body
+    let placedInMobile = false;
+
+    function goMobile(){
+      if(placedInMobile || !playgroundEl || !experienceEl || !idBodyEl) return;
+      // give the two moved panes the same behaviour as the other idpanes
+      [playgroundEl, experienceEl].forEach(el => {
+        el.classList.add('idpane');
+        el.dataset.pane = el.id; // "playground" / "experience"
+        el.classList.add('hidden'); // start hidden; a topbar click reveals one
+      });
+      idBodyEl.appendChild(playgroundEl);
+      idBodyEl.appendChild(experienceEl);
+      placedInMobile = true;
+
+      // if Playground/Pengalaman happened to be the active tab already, make
+      // sure the topbar reflects that; otherwise fall back to Info
+      const currentTarget = document.querySelector('.topbar .seg button.on')?.dataset.target;
+      if(currentTarget !== 'playground' && currentTarget !== 'experience'){
+        document.querySelector('.topbar .seg button[data-target="info"]')?.click();
+      }
+    }
+
+    function goDesktop(){
+      if(!placedInMobile || !playgroundEl || !experienceEl || !rightBodyDiv) return;
+      [playgroundEl, experienceEl].forEach(el => {
+        el.classList.remove('idpane');
+        delete el.dataset.pane;
+      });
+      rightBodyDiv.appendChild(playgroundEl);
+      rightBodyDiv.appendChild(experienceEl);
+      // restore desktop pane visibility to match the right-side tabs
+      const activeRightTab = document.querySelector('.tabs.seg button.on')?.dataset.target || 'playground';
+      playgroundEl.classList.toggle('hidden', activeRightTab !== 'playground');
+      experienceEl.classList.toggle('hidden', activeRightTab !== 'experience');
+      placedInMobile = false;
+      applyBubbleSizing(document.querySelector('.topbar .seg button.on')?.dataset.target);
+    }
+
+    function handleChange(e){
+      if(e.matches) goMobile(); else goDesktop();
+    }
+
+    handleChange(mq);
+    mq.addEventListener('change', handleChange);
+  })();
+
+  // ---- Playground: reveal cards as they scroll into view ----
+  // The playground grid lives inside its own scroll container (the pane,
+  // which has overflow-y:auto) — whether that pane is the desktop right
+  // panel or (on mobile) the merged id-body, so the observer root is
+  // resolved to the pane's own parentElement/self each time, not a fixed node.
+  (function initPlaygroundScrollReveal(){
+    const playgroundPane = document.getElementById('playground');
+    if(!playgroundPane) return;
+    const cards = playgroundPane.querySelectorAll('.card');
+
+    // small stagger so cards entering together don't all pop at once
+    cards.forEach((card, i) => {
+      card.style.transitionDelay = ((i % 4) * 0.07) + 's';
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      root: playgroundPane,
+      rootMargin: '0px 0px -8% 0px',
+      threshold: 0.15
+    });
+
+    cards.forEach(card => revealObserver.observe(card));
+  })();
+
+  // ---- Lightbox: click a playground photo card to view it enlarged ----
+  (function initLightbox(){
+    const overlay = document.getElementById('lightbox-overlay');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const closeBtn = document.getElementById('lightbox-close');
+    const playgroundPane = document.getElementById('playground');
+    if(!overlay || !playgroundPane) return;
+
+    function openLightbox(imgEl){
+      const label = imgEl.closest('.card')?.querySelector('.card-label');
+      lightboxImg.src = imgEl.src;
+      lightboxImg.alt = imgEl.alt || '';
+      lightboxCaption.textContent = label ? label.textContent : '';
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(){
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    playgroundPane.querySelectorAll('.card').forEach(card => {
+      const img = card.querySelector('img');
+      if(!img) return;
+      card.classList.add('clickable');
+      card.addEventListener('click', () => openLightbox(img));
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    overlay.addEventListener('click', (e) => {
+      if(e.target === overlay) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && overlay.classList.contains('open')) closeLightbox();
+    });
+  })();
+
+  // ---- init ----
+  setLang('id');
+</script>
+
+</body>
+</html>
