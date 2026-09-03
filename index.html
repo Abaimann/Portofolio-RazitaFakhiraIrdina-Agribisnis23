@@ -781,6 +781,10 @@
        value/label type and tighten the cell padding so every column
        fits without overlapping or forcing horizontal scroll. */
     .facts.four{gap:2px;}
+    .pill{font-size:10.5px;padding:4px 9px;}
+    .pills{gap:5px;}
+    .skill-group{margin-bottom:12px;}
+    .skill-group h4{font-size:10px;margin:0 0 7px;}
     .facts > div{padding:6px 4px;}
     .fact-value{font-size:16px;}
     .fact-label{font-size:8.5px;line-height:1.25;letter-spacing:0;}
@@ -893,18 +897,21 @@
             <div class="tool-grid">
               <div class="tool-item">
                 <div class="tool-icon" title="Microsoft Word">
+                  <img src="https://cdn.simpleicons.org/microsoftword/2B579A" alt="Microsoft Word" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                   <div class="tool-fallback">W</div>
                 </div>
                 <div class="tool-label">Word</div>
               </div>
               <div class="tool-item">
                 <div class="tool-icon" title="Microsoft PowerPoint">
+                  <img src="https://cdn.simpleicons.org/microsoftpowerpoint/B7472A" alt="Microsoft PowerPoint" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                   <div class="tool-fallback">P</div>
                 </div>
                 <div class="tool-label">PowerPoint</div>
               </div>
               <div class="tool-item">
                 <div class="tool-icon" title="Microsoft Excel">
+                  <img src="https://cdn.simpleicons.org/microsoftexcel/217346" alt="Microsoft Excel" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                   <div class="tool-fallback">X</div>
                 </div>
                 <div class="tool-label">Excel</div>
@@ -917,6 +924,7 @@
               </div>
               <div class="tool-item">
                 <div class="tool-icon" title="Canva">
+                  <img src="https://cdn.simpleicons.org/canva/00C4CC" alt="Canva" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                   <div class="tool-fallback">C</div>
                 </div>
                 <div class="tool-label">Canva</div>
@@ -929,8 +937,20 @@
                 <div class="tool-label">Zoom / Meet</div>
               </div>
               <div class="tool-item">
-                <div class="tool-icon" title="SPSS">
-                  <div class="tool-fallback">S</div>
+                <div class="tool-icon full-logo" title="SPSS">
+                  <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="spssAccent" x1="0" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#94B4C1"/>
+                        <stop offset="1" stop-color="#4F6B76"/>
+                      </linearGradient>
+                    </defs>
+                    <rect x="0" y="0" width="600" height="600" rx="132" fill="#ffffff" stroke="#E4E1D8" stroke-width="6"/>
+                    <text x="88" y="380" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="220" fill="url(#spssAccent)">S</text>
+                    <rect x="250" y="200" width="60" height="180" rx="10" fill="url(#spssAccent)"/>
+                    <rect x="335" y="140" width="60" height="240" rx="10" fill="url(#spssAccent)"/>
+                    <rect x="420" y="260" width="60" height="120" rx="10" fill="url(#spssAccent)"/>
+                  </svg>
                 </div>
                 <div class="tool-label">SPSS</div>
               </div>
