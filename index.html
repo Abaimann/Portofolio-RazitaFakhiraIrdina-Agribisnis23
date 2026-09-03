@@ -573,13 +573,19 @@
   .card.plain .card-label{color:var(--ink);background:none;}
 
   /* Experience list (kept as second tab) */
-  .exp-item{display:flex;gap:14px;padding:16px 12px;border-bottom:1px solid var(--line);border-radius:14px;transition:background .2s ease, padding-left .2s ease;}
-  .exp-item:hover{background:#425C66;padding-left:16px;}
-  .exp-item:hover .exp-time{color:#C7D9DF;}
-  .exp-item:hover .exp-main h4{color:#ffffff;}
-  .exp-item:hover .exp-main .company{color:#C7D9DF;}
-  .exp-item:hover .exp-main p{color:#F3F1EC;}
+  .exp-item{display:flex;gap:14px;padding:16px 12px;border-bottom:2px solid var(--primary-soft);border-radius:14px;}
   .exp-item:last-child{border-bottom:none;}
+  /* Hover-only color change — scoped to devices with real hover (mouse),
+     so touch/mobile scrolling doesn't trigger a highlight that appears to
+     "follow" the finger as you drag through the list. */
+  @media (hover: hover) and (pointer: fine){
+    .exp-item{transition:background .2s ease;}
+    .exp-item:hover{background:#425C66;}
+    .exp-item:hover .exp-time{color:#C7D9DF;}
+    .exp-item:hover .exp-main h4{color:#ffffff;}
+    .exp-item:hover .exp-main .company{color:#C7D9DF;}
+    .exp-item:hover .exp-main p{color:#F3F1EC;}
+  }
   .exp-time{flex:0 0 92px;font-size:12px;color:var(--muted);padding-top:2px;transition:color .2s ease;}
   .exp-main h4{font-family:'Inter', sans-serif;font-weight:700;font-size:16px;margin:0 0 3px;transition:color .2s ease;}
   .exp-main .company{color:var(--primary-deep);font-size:13px;margin-bottom:6px;transition:color .2s ease;}
