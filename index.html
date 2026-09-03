@@ -85,6 +85,18 @@
     border-radius:var(--radius);
   }
 
+  /* right column ("kotak kanan") — black border, desktop only. Mobile
+     already hides this whole stack (.app > .stack:last-of-type{display:none}
+     inside the max-width:860px media query), so this is scoped to a
+     min-width query as well for clarity/safety. */
+  @media (min-width: 861px){
+    .app > .stack:last-of-type{
+      border-radius: var(--radius);
+      padding: 8px;
+      background: var(--paper);
+    }
+  }
+
   /* left column: slide in from the left, one after another top to bottom */
   .app > .stack:first-of-type > .bubble{
     transform:translateX(-160px);
