@@ -47,6 +47,80 @@
     gap:14px;
   }
 
+  /* ============ LOADING SCREEN ============ */
+  #loading-screen{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    background:linear-gradient(160deg, var(--ink), #263236 55%, var(--primary-deep));
+    transition:opacity .65s cubic-bezier(.22,1,.36,1), visibility .65s cubic-bezier(.22,1,.36,1);
+  }
+  #loading-screen.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .loading-mark{
+    width:56px;height:56px;
+    border-radius:16px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    display:flex;align-items:center;justify-content:center;
+    animation:loadingSpin 1.6s cubic-bezier(.45,0,.2,1) infinite;
+  }
+  .loading-mark svg{width:24px;height:24px;}
+  @keyframes loadingSpin{
+    0%{transform:rotate(0deg) scale(1);}
+    50%{transform:rotate(190deg) scale(1.12);}
+    100%{transform:rotate(360deg) scale(1);}
+  }
+  .loading-text{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+  }
+  .loading-name{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:16px;
+    letter-spacing:.02em;
+    color:#F3F1EC;
+    opacity:0;
+    animation:loadingFadeIn .6s ease forwards .15s;
+  }
+  .loading-sub{
+    font-family:'Inter', sans-serif;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--primary-soft);
+    opacity:0;
+    animation:loadingFadeIn .6s ease forwards .3s;
+  }
+  @keyframes loadingFadeIn{ to{opacity:1;} }
+  .loading-bar{
+    width:180px;
+    height:3px;
+    border-radius:999px;
+    background:rgba(255,255,255,.14);
+    overflow:hidden;
+  }
+  .loading-bar-fill{
+    width:0%;
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg, var(--primary), var(--primary-soft));
+    animation:loadingFill 1.7s cubic-bezier(.22,1,.36,1) forwards .1s;
+  }
+  @keyframes loadingFill{ to{width:100%;} }
+
   /* ============ LEFT: stacked bubbles ============ */
   .stack{
     height:100%;
@@ -68,6 +142,8 @@
     opacity:0;
     transform:translateY(16px);
     animation:bubbleIn .6s cubic-bezier(.22,1,.36,1) forwards;
+    /* held paused until the loading screen is fully gone (see body.content-ready below) */
+    animation-play-state:paused;
   }
   .stack > .bubble:nth-child(1){animation-delay:.05s;}
   .stack > .bubble:nth-child(2){animation-delay:.15s;}
@@ -75,6 +151,9 @@
   .stack > .bubble:nth-child(4){animation-delay:.35s;}
   .stack > .bubble:nth-child(5){animation-delay:.45s;}
   @keyframes bubbleIn{ to{opacity:1;transform:translateY(0);} }
+  body.content-ready .stack > .bubble{
+    animation-play-state:running;
+  }
 
   /* background image behind the left box, visible before the bubbles slide in */
   .app > .stack:first-of-type{
@@ -103,12 +182,14 @@
     animation-name:bubbleInLeft;
     animation-duration:.5s;
     animation-timing-function:cubic-bezier(.16,.9,.24,1);
+    /* delays below are relative to when the animation actually starts running
+       (i.e. right after the loading screen is gone), not page load */
   }
-  .app > .stack:first-of-type > .bubble:nth-child(1){animation-delay:1.5s;}
-  .app > .stack:first-of-type > .bubble:nth-child(2){animation-delay:1.6s;}
-  .app > .stack:first-of-type > .bubble:nth-child(3){animation-delay:1.7s;}
-  .app > .stack:first-of-type > .bubble:nth-child(4){animation-delay:1.8s;}
-  .app > .stack:first-of-type > .bubble:nth-child(5){animation-delay:1.9s;}
+  .app > .stack:first-of-type > .bubble:nth-child(1){animation-delay:1.1s;}
+  .app > .stack:first-of-type > .bubble:nth-child(2){animation-delay:1.2s;}
+  .app > .stack:first-of-type > .bubble:nth-child(3){animation-delay:1.3s;}
+  .app > .stack:first-of-type > .bubble:nth-child(4){animation-delay:1.4s;}
+  .app > .stack:first-of-type > .bubble:nth-child(5){animation-delay:1.5s;}
   @keyframes bubbleInLeft{ to{opacity:1;transform:translateX(0);} }
 
   /* topbar bubble */
@@ -117,6 +198,7 @@
     align-items:center;
     gap:8px;
     padding:5px;
+    min-height:42px;
   }
   .mark{
     width:32px;height:32px;border-radius:10px;
@@ -491,6 +573,7 @@
   }
   .panel-top{
     display:flex;align-items:center;gap:8px;padding:5px;
+    min-height:42px;
   }
   .body-bubble{
     flex:1;
@@ -524,6 +607,12 @@
     border:1.5px solid currentColor;
     flex:0 0 auto;
     transition:transform .3s cubic-bezier(.22,1,.36,1);
+    overflow:hidden;
+  }
+  .tabs.seg button .segicon svg{
+    width:12px;
+    height:12px;
+    display:block;
   }
   .tabs.seg button.on{
     background:var(--primary);
@@ -606,9 +695,6 @@
   #experience:not(.hidden) .exp-item:nth-child(6){animation-delay:.55s;}
   #experience:not(.hidden) .exp-item:nth-child(7){animation-delay:.65s;}
   @keyframes expItemIn{ to{opacity:1;transform:translateY(0);} }
-  /* Hover-only color change — scoped to devices with real hover (mouse),
-     so touch/mobile scrolling doesn't trigger a highlight that appears to
-     "follow" the finger as you drag through the list. */
   @media (hover: hover) and (pointer: fine){
     .exp-item{transition:background .2s ease;}
     .exp-item:hover{background:#425C66;}
@@ -724,12 +810,7 @@
     /* ---- hide the star/mark logo in the topbar on mobile ---- */
     .mark{display:none;}
 
-    /* ---- menu: force 3 items on the top row, 2 on the bottom row ----
-       Natural flex-wrap gives an uneven 2/2/1 split depending on button
-       width, so the mark (logo) is pushed to its own line and the 5 menu
-       buttons are laid out on a 6-column grid: the first 3 buttons each
-       span 2 columns (3 items across row 1), the last 2 each span 3
-       columns (2 items across row 2). */
+    /* ---- menu: force 3 items on the top row, 2 on the bottom row ---- */
     .topbar{flex-wrap:wrap;}
     .topbar .seg{
       flex:1 1 100%;
@@ -752,17 +833,10 @@
       grid-column:span 3;
     }
 
-    /* smaller topbar button text so the 5-item menu fits comfortably */
     .topbar .seg button{font-size:11.5px;padding:6px 6px;gap:4px;}
     .topbar .seg button .segicon{width:15px;height:15px;font-size:10px;}
     .topbar .seg button .segtext{min-width:0;}
 
-    /* The desktop pane system (position:absolute panes inside a flex:1 box)
-       is built for a fixed 100vh app shell with internal scrolling. On
-       mobile the page scrolls naturally instead, so panes need to sit in
-       normal flow and size to their own content — otherwise the active
-       pane gets stuck inside a fixed-height inner box, either clipping tall
-       content (Playground/Pengalaman) or leaving blank space behind. */
     .id-bubble{flex:0 0 auto !important;padding:20px 10px;}
     .id-body{
       position:static;
@@ -784,17 +858,6 @@
       display:none;
     }
 
-    /* ---- animasi masuk untuk pane (Info/Skills/Kontak/Playground/Pengalaman)
-       saat berpindah menu di mobile ----
-       Di desktop, transisi antar pane memakai cross-fade posisi absolut
-       (opacity/transform/filter di atas). Di mobile hal itu tidak bisa
-       dipakai karena pane diubah ke position:static (agar bisa scroll
-       natural bersama halaman) dan disembunyikan dengan display:none —
-       sehingga sebelumnya pane baru langsung muncul tanpa animasi sama
-       sekali. Aturan berikut menambahkan animasi fade + slide-up setiap
-       kali sebuah pane berpindah dari display:none menjadi terlihat;
-       browser selalu me-restart animasi CSS saat itu terjadi, jadi tidak
-       perlu JavaScript tambahan. */
     .id-body .idpane:not(.hidden){
       animation: idPaneInMobile .45s cubic-bezier(.22,1,.36,1);
     }
@@ -807,12 +870,6 @@
     .map-standalone.expanded{flex:0 0 auto;height:200px;}
     .map-standalone.expanded .map-frame-wrap{flex:1 1 auto;min-height:150px;}
 
-    /* Fix horizontal overflow ("menembus ke kanan"): flex/grid children
-       default to min-width:auto, which stops them shrinking below their
-       content's natural (unwrapped) width — e.g. the name text, email,
-       or contact rows refusing to wrap and pushing the whole card wider
-       than the phone screen. Breaking that chain lets everything wrap
-       and shrink to fit instead. */
     .app, .stack, .bubble, .topbar, .seg, .id-top, .id-top > div,
     .id-bubble, .id-body, .id-body .idpane, .kontak-row, .kontak-row-text,
     .exp-item, .exp-main, .tabs, .tabs.seg, .contact-bubble, .email-pill,
@@ -825,12 +882,6 @@
       word-break: break-word;
     }
 
-    /* ---- Facts (Semester / GPA / Pengalaman / Tahun Masuk) ----
-       On a narrow phone, 4 columns of large bold numbers + labels
-       ("3.56" next to "7", "Pengalaman" next to "Tahun Masuk") don't
-       have room to breathe and visually run into each other. Shrink the
-       value/label type and tighten the cell padding so every column
-       fits without overlapping or forcing horizontal scroll. */
     .facts.four{gap:2px;}
     .pill{font-size:10.5px;padding:4px 9px;}
     .pill.hard{font-size:10.5px;padding:4px 9px;}
@@ -844,28 +895,36 @@
     .edu-degree{font-size:13px;}
     .edu-school{font-size:11px;}
 
-    /* ---- Kontak: shrink the contact row text on mobile ---- */
     .kontak-row-text{font-size:11px;}
     .kontak-row{padding:10px 12px;gap:10px;}
     .kontak-icon{width:32px;height:32px;}
     .kontak-icon svg{width:15px;height:15px;}
 
-    /* ---- Pengalaman (Experience): same layout as desktop, just smaller ---- */
     .exp-item{gap:8px;padding:10px 0;margin-bottom:6px;}
     .exp-item:last-child{margin-bottom:0;}
     .exp-main h4{font-size:13.5px;margin:0 0 2px;}
     .exp-main .company{font-size:11px;margin-bottom:4px;}
     .exp-main p{font-size:12px;line-height:1.5;}
 
-    /* ---- Playground: padding was too generous for a narrow phone width,
-       squeezing the grid toward the center; tighten it up so cards get
-       more room. ---- */
     #playground.pane{padding:8px 4px;}
     #playground .grid{gap:8px;}
   }
 </style>
 </head>
 <body>
+
+<div id="loading-screen">
+  <div class="loading-mark">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L14.2 9.2L21 12L14.2 14.8L12 22L9.8 14.8L3 12L9.8 9.2L12 2Z" fill="#F3F1EC"/>
+    </svg>
+  </div>
+  <div class="loading-text">
+    <div class="loading-name">Razita Fakhira Irdina</div>
+    <div class="loading-sub">Portfolio</div>
+  </div>
+  <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+</div>
 
 <div class="app">
 
@@ -1377,6 +1436,37 @@
 </div>
 
 <script>
+  // ---- initial loading screen ----
+  (function initLoadingScreen(){
+    const loadingEl = document.getElementById('loading-screen');
+    if(!loadingEl) return;
+    const MIN_DISPLAY_MS = 1400; // keep it visible long enough to actually read/see
+    const startedAt = Date.now();
+
+    function hideLoading(){
+      const elapsed = Date.now() - startedAt;
+      const remaining = Math.max(0, MIN_DISPLAY_MS - elapsed);
+      setTimeout(() => {
+        loadingEl.classList.add('hide');
+        // fully remove from the DOM once the fade-out finishes so it can
+        // never intercept clicks/scroll again, THEN let the left/right
+        // boxes start their entrance animation — not before.
+        setTimeout(() => {
+          loadingEl.remove();
+          document.body.classList.add('content-ready');
+        }, 700);
+      }, remaining);
+    }
+
+    if(document.readyState === 'complete'){
+      hideLoading();
+    } else {
+      window.addEventListener('load', hideLoading);
+    }
+    // safety net in case 'load' never fires (e.g. a slow/broken asset)
+    setTimeout(hideLoading, 6000);
+  })();
+
   // ---- text scramble effect for segmented control labels ----
   const SCRAMBLE_CHARS = '!<>-_\\/[]{}—=+*^?#$0123456789';
   function scrambleText(el){
@@ -1404,10 +1494,6 @@
   }
 
   // ---- ID / EN language switch ----
-  // Any element carrying both data-id and data-en attributes gets its
-  // textContent swapped when the language changes (used for real text labels).
-  // Elements carrying data-title-id / data-title-en instead only get their
-  // `title` tooltip swapped, so icon-only buttons keep their icon.
   function setLang(lang){
     document.documentElement.lang = lang;
     document.querySelectorAll('[data-id][data-en]').forEach(el => {
@@ -1422,7 +1508,6 @@
     document.querySelectorAll('.lang-switch button').forEach(b => {
       b.classList.toggle('on', b.dataset.lang === lang);
     });
-    // re-run the sizing pass for the Kontak pane in case content height changed
     if(document.querySelector('.seg button.on')?.dataset.target === 'kontak'){
       applyBubbleSizing('kontak');
     }
@@ -1453,28 +1538,10 @@
   const idBodyEl = document.getElementById('id-body-el');
   const kontakListEl = document.querySelector('.kontak-list');
 
-  // Sizes the id-bubble so it hugs its content exactly up to the last row
-  // (Instagram) when the Kontak pane is active, instead of stretching to
-  // fill the whole remaining column height.
-  //
-  // This uses a FLIP-style height animation so the transition is symmetric
-  // in both directions:
-  //   - flex (auto) -> fit-content (fixed px)  [entering Kontak]
-  //   - fit-content (fixed px) -> flex (auto)  [leaving Kontak]
-  // Previously, leaving Kontak simply cleared the inline height
-  // (`idBodyEl.style.height = ''`) with no intermediate step. A browser
-  // cannot transition from a pixel value to `auto`/flex, so the container
-  // snapped to its full height in the same frame the pane-switch happened —
-  // which is why Kontak -> Skills and Kontak -> Info looked like there was
-  // no animation at all, while every other combination (which never
-  // touched a fixed pixel height) animated fine.
   function applyBubbleSizing(target){
     const enteringKontak = target === 'kontak';
     const wasFit = idBubbleEl.classList.contains('fit-content');
 
-    // No fit-content state change (e.g. Info <-> Skills): nothing to do,
-    // except keep the Kontak height in sync if we're already on Kontak
-    // (e.g. after a language switch changes its content height).
     if(enteringKontak === wasFit){
       if(enteringKontak && kontakListEl){
         idBodyEl.style.height = kontakListEl.scrollHeight + 'px';
@@ -1482,38 +1549,28 @@
       return;
     }
 
-    // Measure the CURRENT rendered height as the animation start point.
     const startHeight = idBodyEl.getBoundingClientRect().height;
 
     if(enteringKontak){
-      // flex (auto) -> fit-content (fixed px)
       idBodyEl.style.height = startHeight + 'px';
-      idBodyEl.offsetHeight; // force reflow so the browser registers the start value
+      idBodyEl.offsetHeight;
       idBubbleEl.classList.add('fit-content');
       const endHeight = kontakListEl ? kontakListEl.scrollHeight : startHeight;
       requestAnimationFrame(() => {
         idBodyEl.style.height = endHeight + 'px';
       });
     } else {
-      // fit-content (fixed px) -> flex (auto)
-      // First find out what the natural (flex) height WOULD be, by
-      // removing the constraint and reading the layout it settles on...
       idBubbleEl.classList.remove('fit-content');
       idBodyEl.style.height = '';
       const endHeight = idBodyEl.getBoundingClientRect().height;
 
-      // ...then jump back to the fixed start height and animate forward
-      // to that measured end height, exactly like the reverse direction.
       idBodyEl.style.height = startHeight + 'px';
-      idBodyEl.offsetHeight; // force reflow
+      idBodyEl.offsetHeight;
 
       requestAnimationFrame(() => {
         idBodyEl.style.height = endHeight + 'px';
       });
 
-      // Once the height transition finishes, release the inline height so
-      // the bubble stays responsive (e.g. on window resize) instead of
-      // being stuck at whatever pixel value we last animated to.
       idBodyEl.addEventListener('transitionend', function onHeightSettled(e){
         if(e.propertyName !== 'height') return;
         idBodyEl.style.height = '';
@@ -1526,20 +1583,12 @@
     return window.matchMedia('(max-width: 860px)').matches;
   }
 
-  // Swaps which idpane is visible.
   function switchIdPanes(target){
     document.querySelectorAll('.id-body .idpane').forEach(p => {
       p.classList.toggle('hidden', p.dataset.pane !== target);
     });
   }
 
-  // Tracks the in-progress height animation on #id-body-el (mobile only)
-  // so a new pane switch can always cleanly cancel whatever the previous
-  // one was doing, and so we never rely solely on 'transitionend' (which
-  // does NOT fire if the height doesn't actually change — e.g. tapping
-  // the same menu twice, or tapping again before the transition ends —
-  // which previously left an inline height + overflow:hidden stuck on
-  // the container forever, making every pane after that look blank).
   let paneHeightTransitionHandler = null;
   let paneHeightCleanupTimer = null;
 
@@ -1560,39 +1609,23 @@
     idBodyEl.style.removeProperty('overflow');
   }
 
-  // On mobile, the idpane container's height is measured before and after
-  // the swap and animated between the two values instead of snapping
-  // instantly. Without this, hiding a tall pane (e.g. Skills) and showing
-  // a short one (e.g. Info) shrinks the whole page's height in a single
-  // frame — since the page may be scrolled down at that moment, the
-  // browser has no choice but to instantly clamp the scroll position back
-  // within the new (shorter) bounds, which reads as the page suddenly
-  // "jumping" straight back to the top. Animating the container's height
-  // makes that clamping happen gradually across the transition instead of
-  // in one abrupt jump. (On desktop this is skipped — the existing
-  // absolute-positioned cross-fade already handles it there.)
   function runPaneSwitch(target){
     if(!isMobileView()){
       switchIdPanes(target);
       return;
     }
 
-    // cancel whatever the previous switch was still animating/waiting on,
-    // so rapid taps can never leave a stale inline height/overflow stuck
     clearPendingPaneHeightAnimation();
 
     const startHeight = idBodyEl.getBoundingClientRect().height;
     idBodyEl.style.setProperty('height', startHeight + 'px', 'important');
     idBodyEl.style.overflow = 'hidden';
-    idBodyEl.offsetHeight; // force reflow so the start height is registered
+    idBodyEl.offsetHeight;
 
     switchIdPanes(target);
 
     const endHeight = idBodyEl.scrollHeight;
 
-    // heights already equal (e.g. same menu tapped again) — nothing will
-    // actually transition, so release immediately instead of waiting on a
-    // 'transitionend' that will never come
     if(Math.abs(endHeight - startHeight) < 1){
       finishPaneHeightAnimation();
       return;
@@ -1608,17 +1641,9 @@
     };
     idBodyEl.addEventListener('transitionend', paneHeightTransitionHandler);
 
-    // safety net: if 'transitionend' never fires for any reason (browser
-    // quirks, reduced motion, element visibility changes mid-transition),
-    // force the inline styles off anyway so the container can never get
-    // stuck permanently.
     paneHeightCleanupTimer = setTimeout(finishPaneHeightAnimation, 500);
   }
 
-  // Panes that only exist inside #id-body-el on mobile (moved there in
-  // mergeRightIntoLeftOnMobile below) still respond to the exact same
-  // click handler below — panes are re-queried on every click so it
-  // always reflects whichever panes currently live inside the id-body.
   document.querySelectorAll('.topbar .seg').forEach(seg => {
     const btns = seg.querySelectorAll('button');
     btns.forEach(b => {
@@ -1639,20 +1664,10 @@
         mapBubbleEl.classList.toggle('expanded', target === 'kontak');
         applyBubbleSizing(target);
 
-        // On mobile, always bring the user back to the top of the page when
-        // switching menus, so the newly opened pane is read from its first
-        // item (e.g. Pengalaman always opens on "Magang") instead of
-        // whatever scroll position was left over from the previous pane —
-        // which could land mid-way through unrelated content. This runs
-        // alongside the height animation in runPaneSwitch(), so the page
-        // shrinks/grows and scrolls back to the top together smoothly
-        // rather than the scroll position just being left wherever it was.
         if(isMobileView()){
           window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         }
 
-        // keep the standalone right-side tabs (desktop) in sync when a
-        // Playground/Pengalaman button was clicked from the merged mobile menu
         if(target === 'playground' || target === 'experience'){
           document.querySelectorAll('.tabs.seg button').forEach(t => {
             t.classList.toggle('on', t.dataset.target === target);
@@ -1680,31 +1695,24 @@
     });
   });
 
-  // ---- Mobile <= 860px: merge the right box (Playground/Pengalaman) into
-  // the left box, so there is only 1 card with a 5-item menu. The contact
-  // bar at the bottom (email + copy + LinkedIn) is left untouched and stays
-  // visible no matter which menu item is active. ----
   (function mergeRightIntoLeftOnMobile(){
     const mq = window.matchMedia('(max-width: 860px)');
     const playgroundEl = document.getElementById('playground');
     const experienceEl = document.getElementById('experience');
-    const rightBodyDiv = playgroundEl ? playgroundEl.parentElement : null; // .body
+    const rightBodyDiv = playgroundEl ? playgroundEl.parentElement : null;
     let placedInMobile = false;
 
     function goMobile(){
       if(placedInMobile || !playgroundEl || !experienceEl || !idBodyEl) return;
-      // give the two moved panes the same behaviour as the other idpanes
       [playgroundEl, experienceEl].forEach(el => {
         el.classList.add('idpane');
-        el.dataset.pane = el.id; // "playground" / "experience"
-        el.classList.add('hidden'); // start hidden; a topbar click reveals one
+        el.dataset.pane = el.id;
+        el.classList.add('hidden');
       });
       idBodyEl.appendChild(playgroundEl);
       idBodyEl.appendChild(experienceEl);
       placedInMobile = true;
 
-      // if Playground/Pengalaman happened to be the active tab already, make
-      // sure the topbar reflects that; otherwise fall back to Info
       const currentTarget = document.querySelector('.topbar .seg button.on')?.dataset.target;
       if(currentTarget !== 'playground' && currentTarget !== 'experience'){
         document.querySelector('.topbar .seg button[data-target="info"]')?.click();
@@ -1719,7 +1727,6 @@
       });
       rightBodyDiv.appendChild(playgroundEl);
       rightBodyDiv.appendChild(experienceEl);
-      // restore desktop pane visibility to match the right-side tabs
       const activeRightTab = document.querySelector('.tabs.seg button.on')?.dataset.target || 'playground';
       playgroundEl.classList.toggle('hidden', activeRightTab !== 'playground');
       experienceEl.classList.toggle('hidden', activeRightTab !== 'experience');
@@ -1735,22 +1742,11 @@
     mq.addEventListener('change', handleChange);
   })();
 
-  // ---- Playground: reveal cards as they scroll into view ----
-  // root:null (the browser viewport) is used instead of the pane element
-  // itself. The intersection calculation still correctly accounts for any
-  // scrollable/clipping ancestor (e.g. the desktop pane's own
-  // overflow-y:auto), so this works whether the grid is scrolled inside the
-  // desktop pane or scrolled with the whole page on mobile. Using the pane
-  // element as root broke on mobile — on phones the pane switches to
-  // overflow-y:visible/static and the page scrolls naturally, so the pane
-  // was never itself a scrolling viewport and cards never registered as
-  // "intersecting", staying opacity:0 forever and showing up as blank space.
   (function initPlaygroundScrollReveal(){
     const playgroundPane = document.getElementById('playground');
     if(!playgroundPane) return;
     const cards = playgroundPane.querySelectorAll('.card');
 
-    // small stagger so cards entering together don't all pop at once
     cards.forEach((card, i) => {
       card.style.transitionDelay = ((i % 4) * 0.07) + 's';
     });
@@ -1771,7 +1767,6 @@
     cards.forEach(card => revealObserver.observe(card));
   })();
 
-  // ---- Lightbox: click a playground photo card to view it enlarged ----
   (function initLightbox(){
     const overlay = document.getElementById('lightbox-overlay');
     const lightboxImg = document.getElementById('lightbox-img');
