@@ -581,12 +581,11 @@
   @media (hover: hover) and (pointer: fine){
     .exp-item{transition:background .2s ease;}
     .exp-item:hover{background:#425C66;}
-    .exp-item:hover .exp-time{color:#C7D9DF;}
     .exp-item:hover .exp-main h4{color:#ffffff;}
     .exp-item:hover .exp-main .company{color:#C7D9DF;}
     .exp-item:hover .exp-main p{color:#F3F1EC;}
   }
-  .exp-time{flex:0 0 92px;font-size:12px;color:var(--muted);padding-top:2px;transition:color .2s ease;}
+  .exp-main{width:100%;}
   .exp-main h4{font-family:'Inter', sans-serif;font-weight:700;font-size:16px;margin:0 0 3px;transition:color .2s ease;}
   .exp-main .company{color:var(--primary-deep);font-size:13px;margin-bottom:6px;transition:color .2s ease;}
   .exp-main p{font-size:14.5px;font-weight:400;line-height:1.6;color:#33403f;margin:0;transition:color .2s ease;}
@@ -754,7 +753,8 @@
       display:none;
     }
     .lede-text{margin-top:14px;font-size:14.5px;line-height:1.6;}
-    .map-standalone.expanded{flex:0 0 auto;}
+    .map-standalone.expanded{flex:0 0 auto;height:200px;}
+    .map-standalone.expanded .map-frame-wrap{flex:1 1 auto;min-height:150px;}
 
     /* Fix horizontal overflow ("menembus ke kanan"): flex/grid children
        default to min-width:auto, which stops them shrinking below their
@@ -782,6 +782,7 @@
        fits without overlapping or forcing horizontal scroll. */
     .facts.four{gap:2px;}
     .pill{font-size:10.5px;padding:4px 9px;}
+    .pill.hard{font-size:10.5px;padding:4px 9px;}
     .pills{gap:5px;}
     .skill-group{margin-bottom:12px;}
     .skill-group h4{font-size:10px;margin:0 0 7px;}
@@ -792,16 +793,14 @@
     .edu-degree{font-size:13px;}
     .edu-school{font-size:11px;}
 
-    /* ---- Pengalaman (Experience): same layout as desktop, just smaller ----
-       .exp-main previously had no explicit flex-grow, so once min-width:0
-       was applied above it collapsed to a sliver instead of filling the
-       remaining row width, which is why the text wrapped one word per
-       line. Giving it flex:1 restores the two-column (time + content) row
-       from desktop; the sizes below just scale everything down to fit
-       a phone screen. */
-    .exp-item{gap:10px;padding:10px 6px;}
-    .exp-time{flex:0 0 58px;font-size:10.5px;}
-    .exp-main{flex:1 1 auto;min-width:0;}
+    /* ---- Kontak: shrink the contact row text on mobile ---- */
+    .kontak-row-text{font-size:11px;}
+    .kontak-row{padding:10px 12px;gap:10px;}
+    .kontak-icon{width:32px;height:32px;}
+    .kontak-icon svg{width:15px;height:15px;}
+
+    /* ---- Pengalaman (Experience): same layout as desktop, just smaller ---- */
+    .exp-item{gap:8px;padding:6px 4px;}
     .exp-main h4{font-size:13.5px;margin:0 0 2px;}
     .exp-main .company{font-size:11px;margin-bottom:4px;}
     .exp-main p{font-size:12px;line-height:1.5;}
@@ -1250,7 +1249,7 @@
             <img src="assets/playground/usipreneur-4.jpg" alt="USIPRENEUR" loading="lazy">
             <div class="card-label" data-id="USIPRENEUR" data-en="USIPRENEUR"></div>
           </div>
-          <div class="card">
+          <div class="card wide">
             <img src="assets/playground/usipreneur-5.jpg" alt="USIPRENEUR" loading="lazy">
             <div class="card-label" data-id="USIPRENEUR" data-en="USIPRENEUR"></div>
           </div>
@@ -1261,70 +1260,63 @@
 <div id="experience" class="pane hidden">
 
   <div class="exp-item">
-    <div class="exp-time">2025</div>
     <div class="exp-main">
       <h4 data-id="Magang" data-en="Internship"></h4>
-      <div class="company">PT. Juragan Eternak Indonesia, Bekasi</div>
+      <div class="company">PT. Juragan Eternak Indonesia, Bekasi • 2025</div>
       <p data-id="Mempromosikan produk melalui berbagai kanal pemasaran, melayani pelanggan via WhatsApp, mengelola data pelanggan, serta membantu proses produksi fillet &amp; katsu lele sesuai standar kualitas dan kebersihan."
          data-en="Promoted products through various marketing channels, communicated with customers via WhatsApp, managed customer data, and assisted in catfish fillet &amp; katsu production according to quality and hygiene standards."></p>
     </div>
   </div>
 
   <div class="exp-item">
-    <div class="exp-time">2025</div>
     <div class="exp-main">
       <h4 data-id="Divisi Event Committee — AGRIFAIR 2025" data-en="Event Committee Division — AGRIFAIR 2025"></h4>
-      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <div class="company">Himpunan Mahasiswa Agribisnis • 2025</div>
       <p data-id="Membantu perencanaan dan pelaksanaan acara Agrifair 2025, mengoordinasikan jadwal acara dan registrasi peserta, serta mendukung pelaksanaan Seminar Nasional dan Business Plan Competition."
          data-en="Assisted in planning and organizing the Agrifair 2025 event, coordinated event schedules and participant registration, and supported the execution of the National Seminar and Business Plan Competition."></p>
     </div>
   </div>
 
   <div class="exp-item">
-    <div class="exp-time">2025</div>
     <div class="exp-main">
       <h4 data-id="Koordinator Publikasi, Dekorasi &amp; Dokumentasi — Dies Natalis HIMAGRI ke-7" data-en="Publication, Decoration &amp; Documentation Coordinator — 7th HIMAGRI Anniversary"></h4>
-      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <div class="company">Himpunan Mahasiswa Agribisnis • 2025</div>
       <p data-id="Memimpin tim PDD dalam merencanakan dan melaksanakan publikasi, dekorasi, dan dokumentasi, serta mengembangkan konsep visual dan branding untuk acara Dies Natalis HIMAGRI ke-7."
          data-en="Led the PDD team in planning and executing publication, decoration, and documentation activities, and developed the visual concept and branding for the 7th HIMAGRI Anniversary event."></p>
     </div>
   </div>
 
   <div class="exp-item">
-    <div class="exp-time">2025</div>
     <div class="exp-main">
       <h4 data-id="Divisi Publikasi, Dekorasi &amp; Dokumentasi — Introduction of Agribusiness" data-en="Publication, Decoration &amp; Documentation Division — Introduction of Agribusiness"></h4>
-      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <div class="company">Himpunan Mahasiswa Agribisnis • 2025</div>
       <p data-id="Merancang materi promosi, mengelola publikasi informasi acara, mengembangkan konsep visual &amp; dekorasi, serta mendokumentasikan kegiatan Introduction of Agribusiness 2025."
          data-en="Designed promotional materials, managed event information publication, developed visual concepts &amp; decorations, and documented the Introduction of Agribusiness 2025 activities."></p>
     </div>
   </div>
 
   <div class="exp-item">
-    <div class="exp-time">2025</div>
     <div class="exp-main">
       <h4 data-id="Staff Departemen Media &amp; Branding" data-en="Staff of Media &amp; Branding Department"></h4>
-      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <div class="company">Himpunan Mahasiswa Agribisnis • 2025</div>
       <p data-id="Mengelola konten media sosial untuk memperkuat branding organisasi, merancang materi promosi, dan mengembangkan konsep visual untuk berbagai program dan kegiatan organisasi."
          data-en="Managed social media content to strengthen organizational branding, designed promotional materials, and developed visual concepts for various organizational programs and activities."></p>
     </div>
   </div>
 
   <div class="exp-item">
-    <div class="exp-time">2024</div>
     <div class="exp-main">
       <h4 data-id="Divisi Publikasi, Dekorasi &amp; Dokumentasi — AGRIFAIR 2024" data-en="Publication, Decoration &amp; Documentation Division — AGRIFAIR 2024"></h4>
-      <div class="company">Himpunan Mahasiswa Agribisnis</div>
+      <div class="company">Himpunan Mahasiswa Agribisnis • 2024</div>
       <p data-id="Menyusun materi promosi acara, mengelola publikasi di media sosial, mengembangkan konsep visual &amp; dekorasi, serta mendokumentasikan seluruh rangkaian acara Agrifair 2024 termasuk Seminar Nasional."
          data-en="Prepared event promotional materials, managed social media publication, developed visual concepts &amp; decorations, and documented the entire Agrifair 2024 event including the National Seminar."></p>
     </div>
   </div>
 
   <div class="exp-item">
-    <div class="exp-time">2023</div>
     <div class="exp-main">
       <h4 data-id="Divisi Produksi — USIPRENEUR" data-en="Production Division — USIPRENEUR"></h4>
-      <div class="company">UKM Unit Studi Ilmiah</div>
+      <div class="company">UKM Unit Studi Ilmiah • 2023</div>
       <p data-id="Mengelola proses produksi sabun berbahan dasar eco-enzyme dari persiapan hingga produk akhir, termasuk pengukuran bahan baku, pencampuran, pengemasan, dan pengecekan kualitas produk."
          data-en="Managed the eco-enzyme-based soap production process from preparation to final product, including raw material measurement, mixing, packaging, and quality checks."></p>
     </div>
