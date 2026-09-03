@@ -328,6 +328,7 @@
   }
   .tool-icon.full-logo{padding:0;background:none;border:none;box-shadow:0 8px 16px -8px rgba(79,107,118,.45);}
   .tool-icon.full-logo svg{width:100%;height:100%;color:initial;border-radius:14px;}
+  .tool-icon.full-logo img{width:100%;height:100%;object-fit:contain;border-radius:14px;}
   .tool-item:hover .tool-icon{transform:translateY(-3px) scale(1.06);box-shadow:0 12px 20px -10px rgba(79,107,118,.45);}
   .tool-label{font-size:10px;color:var(--muted);text-align:center;line-height:1.25;}
 
@@ -732,7 +733,7 @@
        normal flow and size to their own content — otherwise the active
        pane gets stuck inside a fixed-height inner box, either clipping tall
        content (Playground/Pengalaman) or leaving blank space behind. */
-    .id-bubble{flex:0 0 auto !important;}
+    .id-bubble{flex:0 0 auto !important;padding:20px 10px;}
     .id-body{
       position:static;
       flex:0 0 auto;
@@ -896,61 +897,44 @@
             <h4 data-id="ALAT" data-en="TOOLS"></h4>
             <div class="tool-grid">
               <div class="tool-item">
-                <div class="tool-icon" title="Microsoft Word">
-                  <img src="https://cdn.simpleicons.org/microsoftword/2B579A" alt="Microsoft Word" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                  <div class="tool-fallback">W</div>
+                <div class="tool-icon full-logo" title="Microsoft Word">
+                  <img src="assets/icon/word.jpg" alt="Microsoft Word">
                 </div>
                 <div class="tool-label">Word</div>
               </div>
               <div class="tool-item">
-                <div class="tool-icon" title="Microsoft PowerPoint">
-                  <img src="https://cdn.simpleicons.org/microsoftpowerpoint/B7472A" alt="Microsoft PowerPoint" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                  <div class="tool-fallback">P</div>
+                <div class="tool-icon full-logo" title="Microsoft PowerPoint">
+                  <img src="assets/icon/powerpoint.jpg" alt="Microsoft PowerPoint">
                 </div>
                 <div class="tool-label">PowerPoint</div>
               </div>
               <div class="tool-item">
-                <div class="tool-icon" title="Microsoft Excel">
-                  <img src="https://cdn.simpleicons.org/microsoftexcel/217346" alt="Microsoft Excel" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                  <div class="tool-fallback">X</div>
+                <div class="tool-icon full-logo" title="Microsoft Excel">
+                  <img src="assets/icon/excel.jpg" alt="Microsoft Excel">
                 </div>
                 <div class="tool-label">Excel</div>
               </div>
               <div class="tool-item">
-                <div class="tool-icon" title="Google Workspace">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="8" height="10" rx="1.6" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="3" width="8" height="6" rx="1.6" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="11" width="8" height="10" rx="1.6" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="15" width="8" height="6" rx="1.6" stroke="currentColor" stroke-width="1.8"/></svg>
+                <div class="tool-icon full-logo" title="Google Workspace">
+                  <img src="assets/icon/workspace.jpg" alt="Google Workspace">
                 </div>
                 <div class="tool-label">Workspace</div>
               </div>
               <div class="tool-item">
-                <div class="tool-icon" title="Canva">
-                  <img src="https://cdn.simpleicons.org/canva/00C4CC" alt="Canva" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                  <div class="tool-fallback">C</div>
+                <div class="tool-icon full-logo" title="Canva">
+                  <img src="assets/icon/canva.jpg" alt="Canva">
                 </div>
                 <div class="tool-label">Canva</div>
               </div>
               <div class="tool-item">
-                <div class="tool-icon" title="Zoom">
-                  <img src="https://cdn.simpleicons.org/zoom/2D8CFF" alt="Zoom" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                  <div class="tool-fallback">Z</div>
+                <div class="tool-icon full-logo" title="Zoom">
+                  <img src="assets/icon/zoom.jpg" alt="Zoom">
                 </div>
                 <div class="tool-label">Zoom / Meet</div>
               </div>
               <div class="tool-item">
                 <div class="tool-icon full-logo" title="SPSS">
-                  <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="spssAccent" x1="0" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#94B4C1"/>
-                        <stop offset="1" stop-color="#4F6B76"/>
-                      </linearGradient>
-                    </defs>
-                    <rect x="0" y="0" width="600" height="600" rx="132" fill="#ffffff" stroke="#E4E1D8" stroke-width="6"/>
-                    <text x="88" y="380" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="220" fill="url(#spssAccent)">S</text>
-                    <rect x="250" y="200" width="60" height="180" rx="10" fill="url(#spssAccent)"/>
-                    <rect x="335" y="140" width="60" height="240" rx="10" fill="url(#spssAccent)"/>
-                    <rect x="420" y="260" width="60" height="120" rx="10" fill="url(#spssAccent)"/>
-                  </svg>
+                  <img src="assets/icon/spss.jpg" alt="SPSS">
                 </div>
                 <div class="tool-label">SPSS</div>
               </div>
