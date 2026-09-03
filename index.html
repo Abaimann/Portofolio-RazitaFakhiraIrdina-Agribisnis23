@@ -681,6 +681,16 @@
     .seg button.mobile-only-tab{display:flex;}
     .app > .stack:last-of-type{display:none;}
 
+    /* ---- keep the topbar (Info/Skills/Kontak/Playground/Pengalaman menu)
+       fixed to the top of the screen while scrolling on mobile ---- */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:30;
+      background:var(--surface);
+      box-shadow:0 6px 14px -10px rgba(28,37,40,.35);
+    }
+
     /* ---- hide the star/mark logo in the topbar on mobile ---- */
     .mark{display:none;}
 
