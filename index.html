@@ -237,10 +237,12 @@
     inset:0;
     overflow-y:auto;
     opacity:1;
-    transform:translateY(0);
-    transition:opacity .32s ease, transform .32s cubic-bezier(.22,1,.36,1);
+    transform:translateY(0) scale(1);
+    filter:blur(0px);
+    will-change:opacity, transform, filter;
+    transition:opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1), filter .5s cubic-bezier(.16,1,.3,1);
   }
-  .id-body .idpane.hidden{opacity:0;transform:translateY(10px);pointer-events:none;}
+  .id-body .idpane.hidden{opacity:0;transform:translateY(22px) scale(.96);filter:blur(6px);pointer-events:none;}
   .id-body .idpane{
     scrollbar-width:none;
     -ms-overflow-style:none;
@@ -521,12 +523,13 @@
   .body{padding:0;flex:1;position:relative;overflow:hidden;min-height:0;}
   .pane{
     position:absolute;inset:0;padding:16px;overflow-y:auto;overflow-x:hidden;
-    opacity:1;transform:translateY(0);
-    transition:opacity .32s ease, transform .32s cubic-bezier(.22,1,.36,1);
+    opacity:1;transform:translateY(0) scale(1);filter:blur(0px);
+    will-change:opacity, transform, filter;
+    transition:opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1), filter .5s cubic-bezier(.16,1,.3,1);
     scrollbar-width:none;-ms-overflow-style:none;
   }
   .pane::-webkit-scrollbar{width:0;height:0;display:none;}
-  .pane.hidden{opacity:0;transform:translateY(10px);pointer-events:none;}
+  .pane.hidden{opacity:0;transform:translateY(22px) scale(.96);filter:blur(6px);pointer-events:none;}
 
   /* Playground grid */
   .grid{
@@ -574,8 +577,23 @@
   .card.plain .card-label{color:var(--ink);background:none;}
 
   /* Experience list (kept as second tab) */
-  .exp-item{display:flex;gap:14px;padding:16px 12px;border-bottom:2px solid var(--primary-soft);border-radius:14px;}
+  .exp-item{
+    display:flex;gap:14px;padding:16px 12px;border-bottom:2px solid var(--primary-soft);border-radius:14px;
+    opacity:0;
+    transform:translateY(-22px);
+  }
   .exp-item:last-child{border-bottom:none;}
+  #experience:not(.hidden) .exp-item{
+    animation:expItemIn .55s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  #experience:not(.hidden) .exp-item:nth-child(1){animation-delay:.05s;}
+  #experience:not(.hidden) .exp-item:nth-child(2){animation-delay:.15s;}
+  #experience:not(.hidden) .exp-item:nth-child(3){animation-delay:.25s;}
+  #experience:not(.hidden) .exp-item:nth-child(4){animation-delay:.35s;}
+  #experience:not(.hidden) .exp-item:nth-child(5){animation-delay:.45s;}
+  #experience:not(.hidden) .exp-item:nth-child(6){animation-delay:.55s;}
+  #experience:not(.hidden) .exp-item:nth-child(7){animation-delay:.65s;}
+  @keyframes expItemIn{ to{opacity:1;transform:translateY(0);} }
   /* Hover-only color change — scoped to devices with real hover (mouse),
      so touch/mobile scrolling doesn't trigger a highlight that appears to
      "follow" the finger as you drag through the list. */
@@ -1406,15 +1424,69 @@
   // Sizes the id-bubble so it hugs its content exactly up to the last row
   // (Instagram) when the Kontak pane is active, instead of stretching to
   // fill the whole remaining column height.
+  //
+  // This uses a FLIP-style height animation so the transition is symmetric
+  // in both directions:
+  //   - flex (auto) -> fit-content (fixed px)  [entering Kontak]
+  //   - fit-content (fixed px) -> flex (auto)  [leaving Kontak]
+  // Previously, leaving Kontak simply cleared the inline height
+  // (`idBodyEl.style.height = ''`) with no intermediate step. A browser
+  // cannot transition from a pixel value to `auto`/flex, so the container
+  // snapped to its full height in the same frame the pane-switch happened —
+  // which is why Kontak -> Skills and Kontak -> Info looked like there was
+  // no animation at all, while every other combination (which never
+  // touched a fixed pixel height) animated fine.
   function applyBubbleSizing(target){
-    if(target === 'kontak' && kontakListEl){
-      const contentHeight = kontakListEl.scrollHeight;
-      idBodyEl.style.height = contentHeight + 'px';
-      // allow the height transition to run before switching to a fixed flex-basis
+    const enteringKontak = target === 'kontak';
+    const wasFit = idBubbleEl.classList.contains('fit-content');
+
+    // No fit-content state change (e.g. Info <-> Skills): nothing to do,
+    // except keep the Kontak height in sync if we're already on Kontak
+    // (e.g. after a language switch changes its content height).
+    if(enteringKontak === wasFit){
+      if(enteringKontak && kontakListEl){
+        idBodyEl.style.height = kontakListEl.scrollHeight + 'px';
+      }
+      return;
+    }
+
+    // Measure the CURRENT rendered height as the animation start point.
+    const startHeight = idBodyEl.getBoundingClientRect().height;
+
+    if(enteringKontak){
+      // flex (auto) -> fit-content (fixed px)
+      idBodyEl.style.height = startHeight + 'px';
+      idBodyEl.offsetHeight; // force reflow so the browser registers the start value
       idBubbleEl.classList.add('fit-content');
+      const endHeight = kontakListEl ? kontakListEl.scrollHeight : startHeight;
+      requestAnimationFrame(() => {
+        idBodyEl.style.height = endHeight + 'px';
+      });
     } else {
+      // fit-content (fixed px) -> flex (auto)
+      // First find out what the natural (flex) height WOULD be, by
+      // removing the constraint and reading the layout it settles on...
       idBubbleEl.classList.remove('fit-content');
       idBodyEl.style.height = '';
+      const endHeight = idBodyEl.getBoundingClientRect().height;
+
+      // ...then jump back to the fixed start height and animate forward
+      // to that measured end height, exactly like the reverse direction.
+      idBodyEl.style.height = startHeight + 'px';
+      idBodyEl.offsetHeight; // force reflow
+
+      requestAnimationFrame(() => {
+        idBodyEl.style.height = endHeight + 'px';
+      });
+
+      // Once the height transition finishes, release the inline height so
+      // the bubble stays responsive (e.g. on window resize) instead of
+      // being stuck at whatever pixel value we last animated to.
+      idBodyEl.addEventListener('transitionend', function onHeightSettled(e){
+        if(e.propertyName !== 'height') return;
+        idBodyEl.style.height = '';
+        idBodyEl.removeEventListener('transitionend', onHeightSettled);
+      });
     }
   }
 
