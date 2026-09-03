@@ -675,6 +675,34 @@
     .seg button.mobile-only-tab{display:flex;}
     .app > .stack:last-of-type{display:none;}
 
+    /* ---- menu: force 3 items on the top row, 2 on the bottom row ----
+       Natural flex-wrap gives an uneven 2/2/1 split depending on button
+       width, so the mark (logo) is pushed to its own line and the 5 menu
+       buttons are laid out on a 6-column grid: the first 3 buttons each
+       span 2 columns (3 items across row 1), the last 2 each span 3
+       columns (2 items across row 2). */
+    .topbar{flex-wrap:wrap;}
+    .topbar .seg{
+      flex:1 1 100%;
+      display:grid;
+      grid-template-columns:repeat(6, 1fr);
+      gap:8px;
+      justify-content:stretch;
+    }
+    .topbar .seg button{
+      justify-content:center;
+      padding:6px 10px;
+    }
+    .topbar .seg button:nth-child(1),
+    .topbar .seg button:nth-child(2),
+    .topbar .seg button:nth-child(3){
+      grid-column:span 2;
+    }
+    .topbar .seg button:nth-child(4),
+    .topbar .seg button:nth-child(5){
+      grid-column:span 3;
+    }
+
     /* The desktop pane system (position:absolute panes inside a flex:1 box)
        is built for a fixed 100vh app shell with internal scrolling. On
        mobile the page scrolls naturally instead, so panes need to sit in
@@ -721,6 +749,26 @@
       overflow-wrap: break-word;
       word-break: break-word;
     }
+
+    /* ---- Pengalaman (Experience): same layout as desktop, just smaller ----
+       .exp-main previously had no explicit flex-grow, so once min-width:0
+       was applied above it collapsed to a sliver instead of filling the
+       remaining row width, which is why the text wrapped one word per
+       line. Giving it flex:1 restores the two-column (time + content) row
+       from desktop; the sizes below just scale everything down to fit
+       a phone screen. */
+    .exp-item{gap:10px;padding:10px 6px;}
+    .exp-time{flex:0 0 58px;font-size:10.5px;}
+    .exp-main{flex:1 1 auto;min-width:0;}
+    .exp-main h4{font-size:13.5px;margin:0 0 2px;}
+    .exp-main .company{font-size:11px;margin-bottom:4px;}
+    .exp-main p{font-size:12px;line-height:1.5;}
+
+    /* ---- Playground: padding was too generous for a narrow phone width,
+       squeezing the grid toward the center; tighten it up so cards get
+       more room. ---- */
+    #playground.pane{padding:8px;}
+    #playground .grid{gap:8px;}
   }
 </style>
 </head>
