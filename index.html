@@ -1515,10 +1515,15 @@
   })();
 
   // ---- Playground: reveal cards as they scroll into view ----
-  // The playground grid lives inside its own scroll container (the pane,
-  // which has overflow-y:auto) — whether that pane is the desktop right
-  // panel or (on mobile) the merged id-body, so the observer root is
-  // resolved to the pane's own parentElement/self each time, not a fixed node.
+  // root:null (the browser viewport) is used instead of the pane element
+  // itself. The intersection calculation still correctly accounts for any
+  // scrollable/clipping ancestor (e.g. the desktop pane's own
+  // overflow-y:auto), so this works whether the grid is scrolled inside the
+  // desktop pane or scrolled with the whole page on mobile. Using the pane
+  // element as root broke on mobile — on phones the pane switches to
+  // overflow-y:visible/static and the page scrolls naturally, so the pane
+  // was never itself a scrolling viewport and cards never registered as
+  // "intersecting", staying opacity:0 forever and showing up as blank space.
   (function initPlaygroundScrollReveal(){
     const playgroundPane = document.getElementById('playground');
     if(!playgroundPane) return;
@@ -1537,7 +1542,7 @@
         }
       });
     }, {
-      root: playgroundPane,
+      root: null,
       rootMargin: '0px 0px -8% 0px',
       threshold: 0.15
     });
