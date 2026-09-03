@@ -675,6 +675,9 @@
     .seg button.mobile-only-tab{display:flex;}
     .app > .stack:last-of-type{display:none;}
 
+    /* ---- hide the star/mark logo in the topbar on mobile ---- */
+    .mark{display:none;}
+
     /* ---- menu: force 3 items on the top row, 2 on the bottom row ----
        Natural flex-wrap gives an uneven 2/2/1 split depending on button
        width, so the mark (logo) is pushed to its own line and the 5 menu
@@ -703,6 +706,11 @@
       grid-column:span 3;
     }
 
+    /* smaller topbar button text so the 5-item menu fits comfortably */
+    .topbar .seg button{font-size:11.5px;padding:6px 6px;gap:4px;}
+    .topbar .seg button .segicon{width:15px;height:15px;font-size:10px;}
+    .topbar .seg button .segtext{min-width:0;}
+
     /* The desktop pane system (position:absolute panes inside a flex:1 box)
        is built for a fixed 100vh app shell with internal scrolling. On
        mobile the page scrolls naturally instead, so panes need to sit in
@@ -729,7 +737,7 @@
     .id-body .idpane[data-pane="info"].hidden{
       display:none;
     }
-    .lede-text{margin-top:14px;}
+    .lede-text{margin-top:14px;font-size:14.5px;line-height:1.6;}
     .map-standalone.expanded{flex:0 0 auto;}
 
     /* Fix horizontal overflow ("menembus ke kanan"): flex/grid children
@@ -749,6 +757,20 @@
       overflow-wrap: break-word;
       word-break: break-word;
     }
+
+    /* ---- Facts (Semester / GPA / Pengalaman / Tahun Masuk) ----
+       On a narrow phone, 4 columns of large bold numbers + labels
+       ("3.56" next to "7", "Pengalaman" next to "Tahun Masuk") don't
+       have room to breathe and visually run into each other. Shrink the
+       value/label type and tighten the cell padding so every column
+       fits without overlapping or forcing horizontal scroll. */
+    .facts.four{gap:2px;}
+    .facts > div{padding:6px 4px;}
+    .fact-value{font-size:16px;}
+    .fact-label{font-size:8.5px;line-height:1.25;letter-spacing:0;}
+    .name{font-size:19px;}
+    .edu-degree{font-size:13px;}
+    .edu-school{font-size:11px;}
 
     /* ---- Pengalaman (Experience): same layout as desktop, just smaller ----
        .exp-main previously had no explicit flex-grow, so once min-width:0
